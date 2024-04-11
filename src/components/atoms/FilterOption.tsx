@@ -1,8 +1,7 @@
 // src/components/atoms/FilterOption.tsx
 
 import React from 'react';
-import { TouchableOpacity, Text, StyleSheet, Image } from 'react-native';
-
+import {TouchableOpacity, Text, StyleSheet, Image} from 'react-native';
 
 interface FilterOptionProps {
   label: string;
@@ -11,25 +10,36 @@ interface FilterOptionProps {
   onSelect: () => void;
 }
 
-const FilterOption: React.FC<FilterOptionProps> = ({ label,image, isSelected, onSelect }) => {
+const FilterOption: React.FC<FilterOptionProps> = ({
+  label,
+  image,
+  isSelected,
+  onSelect,
+}) => {
   return (
     <TouchableOpacity
-      style={[styles.optionContainer, isSelected ? styles.selectedOption : styles.unselectedOption]}
-      onPress={onSelect}
-    >
+      style={[
+        styles.optionContainer,
+        isSelected ? styles.selectedOption : styles.unselectedOption,
+      ]}
+      onPress={onSelect}>
       <Image source={image} style={styles.image} />
       {/* <Text style={styles.optionText}>{label}</Text> */}
-    </TouchableOpacity>)}
+    </TouchableOpacity>
+  );
+};
 
 const styles = StyleSheet.create({
   optionContainer: {
-    paddingHorizontal: 6,
-    paddingVertical: 0, //content in inside 
+    // paddingHorizontal: 6,
+    // paddingVertical: 0, //content in inside
     marginRight: 8,
     borderRadius: 20,
-    height:60,
+    height: 54,
     // borderWidth: 1,
     borderColor: '#007bff',
+    borderWidth: 2,
+    borderColor: 'transparent',
   },
   image: {
     width: 100, // Adjust as needed
@@ -40,9 +50,9 @@ const styles = StyleSheet.create({
   //   fontWeight: 'bold',
   // },
   selectedOption: {
-    // borderWidth: 2,
-    backgroundColor: '#e9ecef'
+    // backgroundColor: '#e9ecef'
     // color:'black'
+    borderColor: 'teal',
   },
   unselectedOption: {
     backgroundColor: 'transparent',
