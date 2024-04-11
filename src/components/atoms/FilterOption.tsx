@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     height: 54,
     // borderWidth: 1,
-    borderColor: '#007bff',
+    // borderColor: '#007bff',
     borderWidth: 2,
     borderColor: 'transparent',
   },

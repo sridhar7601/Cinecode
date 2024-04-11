@@ -1,8 +1,10 @@
 // src/components/pages/HomePage.tsx
 
-import React, {useState} from 'react';
-import {View, Text, StyleSheet, ScrollView,FlatList, SafeAreaView} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, SafeAreaView, FlatList,ScrollView } from 'react-native';
 import ImageBackground from '../atoms/ImageBackground';
+import YearList from '../atoms/YearList';
+import axios from 'axios'; // Import axios for making HTTP requests
 import FilterOption from '../atoms/FilterOption';
 import BodyCardMain from '../atoms/BodyCardMain';
 import action from '../../assets/filterlogo/action.png';
@@ -11,6 +13,36 @@ import horror from '../../assets/filterlogo/horror.png';
 import scifi from '../../assets/filterlogo/scifi.png';
 
 const HomePage: React.FC = () => {
+  const [moviesByYear, setMoviesByYear] = useState<{ [year: string]: any[] }>({});
+  const apiKey = '2dca580c2a14b55200e784d157207b4d';
+
+  useEffect(() => {
+    const fetchMoviesByYear = async () => {
+      const years = [2020, 2021, 2022, 2023, 2024]; // Specify the years to fetch movies for
+
+      const movieDataPromises = years.map(async (year) => {
+        const url = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&sort_by=popularity.desc&primary_release_year=${year}&page=1&vote_count.gte=100`;
+        const response = await axios.get(url);
+        return { year: String(year), movies: response.data.results };
+      });
+
+      // Wait for all movie data promises to resolve
+      const movieDataResults = await Promise.all(movieDataPromises);
+      const moviesByYearObject: { [year: string]: any[] } = {};
+      
+      movieDataResults.forEach((result) => {
+        moviesByYearObject[result.year] = result.movies;
+        // console.log(movieDataResults,"moviesbyyear");
+
+      });
+
+      setMoviesByYear(moviesByYearObject);
+    };
+
+    fetchMoviesByYear();
+  }, []); // Run this effect only once on component mount
+
+  // section fr filter
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
 
   const handleFilterSelect = (filter: string) => {
@@ -38,12 +70,10 @@ const HomePage: React.FC = () => {
       onSelect={() => handleFilterSelect(item.label)}
     />
   );
-
   return (
     <SafeAreaView style={styles.safeArea}>
       <ImageBackground source={require('../../assets/background.png')}>
-      <ScrollView style={{flex:1, width:'100%',height:'100%', flexGrow:1}}>
-
+        <ScrollView style={styles.container}>
         <Text style={styles.title}>Welcome{'\n'}Sridhar</Text>
         <Text style={styles.browse}>Browse By</Text>
 
@@ -56,14 +86,21 @@ const HomePage: React.FC = () => {
             keyExtractor={(item) => item.label}
           />
         </View>
+          {Object.entries(moviesByYear).map(([year, movies]) => (
+            <YearList key={year} year={parseInt(year)} movies={movies} />
+          ))}
         </ScrollView>
-
       </ImageBackground>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  
+  container: {
+    flex: 1,
+    padding: 16,
+  },
   safeArea: {
     flex: 1,
     backgroundColor: 'white', // Background color behind the safe area (adjust as needed)
