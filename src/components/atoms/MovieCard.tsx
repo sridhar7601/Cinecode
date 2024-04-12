@@ -15,8 +15,6 @@ const MovieCard: React.FC<MovieCardProps> = ({ title, genres, posterUrl }) => {
     <View style={styles.container}>
       {/* Image with absolute positioning */}
       <Image source={{ uri: `https://image.tmdb.org/t/p/w500/${posterUrl}` }}  style={styles.poster} resizeMode="cover" />
-
-      {/* Text container with blur effect */}
       {!Platform.OS === 'ios' ? (
         <BlurView style={styles.textContainer} blurType="light" blurAmount={10}>
           <Text style={styles.title}>{title}</Text>

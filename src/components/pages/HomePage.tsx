@@ -6,10 +6,12 @@ import {
   SafeAreaView,
   FlatList,
   ScrollView,
+  ActivityIndicator,
 } from 'react-native';
 import ImageBackground from '../atoms/ImageBackground';
 import YearList from '../atoms/YearList';
 import FilterOption from '../atoms/FilterOption';
+
 
 import action from '../../assets/filterlogo/action.png';
 import featured from '../../assets/filterlogo/featured.png';
@@ -22,11 +24,12 @@ const HomePage: React.FC = () => {
   const [visibleYears, setVisibleYears] = useState<number[]>([2012, 2013, 2014]);
   const apiKey = '2dca580c2a14b55200e784d157207b4d';
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
-
+  const [loading, setLoading] = useState(false);
 
   const scrollViewRef = useRef<ScrollView>(null);
 
   const fetchMoviesForYear = async (year: number) => {
+    setLoading(true);
     try {
       const url = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&sort_by=popularity.desc&primary_release_year=${year}&page=1&vote_count.gte=100`;
       const response = await axios.get(url);
@@ -34,24 +37,11 @@ const HomePage: React.FC = () => {
     } catch (error) {
       console.error('Error fetching movies:', error);
       return [];
+    } finally {
+      setLoading(false);
     }
   };
-  const renderItem = ({item}: {item: any}) => (
-    <FilterOption
-      label={item.label}
-      image={item.image}
-      isSelected={selectedFilters.includes(item.label)}
-      onSelect={() => handleFilterSelect(item.label)}
-    />
-  );
-  const filterOptions = [
-    {label: 'Option 1', image: action},
-    {label: 'Option 2', image: scifi},
-    {label: 'Option 3', image: horror},
-    {label: 'Option 4', image: featured},
-    {label: 'Option 5', image: scifi},
-    // Add other options...
-  ];
+
   const loadMoreYears = async (direction: 'up' | 'down') => {
     const currentYears = [...visibleYears];
   
@@ -71,19 +61,44 @@ const HomePage: React.FC = () => {
       }
     }
   };
-  
+  const handleFilterSelect = (filter: string) => {
+    const updatedFilters = selectedFilters.includes(filter)
+      ? selectedFilters.filter((item) => item !== filter)
+      : [...selectedFilters, filter];
+    setSelectedFilters(updatedFilters);
+    console.log('Selected Filters:', updatedFilters);
+  };
 
   const handleScroll = ({ nativeEvent }: any) => {
+    setLoading(true);
+
     const { layoutMeasurement, contentOffset, contentSize } = nativeEvent;
     const scrollHeight = layoutMeasurement.height + contentOffset.y;
-  
     if (scrollHeight >= contentSize.height - 20) {
       loadMoreYears('down');
+// if ()
     } else if (contentOffset.y <= 0) {
+      setLoading(true);
+
       loadMoreYears('up');
     }
   };
-  
+  const renderItem = ({item}: {item: any}) => (
+    <FilterOption
+      label={item.label}
+      image={item.image}
+      isSelected={selectedFilters.includes(item.label)}
+      onSelect={() => handleFilterSelect(item.label)}
+    />
+  );
+  const filterOptions = [
+    {label: 'Option 1', image: action},
+    {label: 'Option 2', image: scifi},
+    {label: 'Option 3', image: horror},
+    {label: 'Option 4', image: featured},
+    {label: 'Option 5', image: scifi},
+    // Add other options...
+  ];
   useEffect(() => {
     const fetchInitialMovies = async () => {
       const movieData: { [year: string]: any[] } = {};
@@ -95,7 +110,6 @@ const HomePage: React.FC = () => {
       );
       setMoviesByYear(movieData);
     };
-
     fetchInitialMovies();
   }, []);
 
@@ -123,6 +137,11 @@ const HomePage: React.FC = () => {
           {visibleYears.map((year) => (
             <YearList key={year} year={year} movies={moviesByYear[year] || []} />
           ))}
+          {loading && (
+            <View style={styles.loaderContainer}>
+              <ActivityIndicator size="large" color="gray" />
+            </View>
+          )}
         </ScrollView>
       </ImageBackground>
     </SafeAreaView>
@@ -138,20 +157,10 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white', // Background color behind the safe area (adjust as needed)
   },
-  containermain: {
-    flex: 3,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: "white",
-  },
   containerfilter: {
     flex: 0.15,
     justifyContent: 'center',
     alignItems: 'center',
-
-    // backgroundColor: "white",
-// height:10,
-    // marginHorizontal:10
     margin: 2,
   },
   browse: {
@@ -161,18 +170,23 @@ const styles = StyleSheet.create({
     color: 'white',
     marginBottom: 10,
     marginLeft: 10,
-    alignSelf: 'flex-start', // Aligns the text to the start (left for LTR layouts)
-    // marginTop: 10,
+    alignSelf: 'flex-start',
   },
   title: {
     fontSize: 40,
     fontWeight: '800',
-    fontFamily: 'CarmenSans', // use the exact name of the font file without the extension
+    fontFamily: 'CarmenSans',
     color: 'white',
     marginBottom: 16,
     marginLeft: 10,
-    alignSelf: 'flex-start', // Aligns the text to the start (left for LTR layouts)
-    marginTop: 16, // Adds some margin at the top (adjust as needed)
+    alignSelf: 'flex-start',
+    marginTop: 16,
+  },
+  loaderContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 20,
   },
 });
 
