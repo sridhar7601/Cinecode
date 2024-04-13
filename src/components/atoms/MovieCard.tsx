@@ -15,15 +15,15 @@ const MovieCard: React.FC<MovieCardProps> = ({ title, genres, posterUrl }) => {
     <View style={styles.container}>
       {/* Image with absolute positioning */}
       <Image source={{ uri: `https://image.tmdb.org/t/p/w500/${posterUrl}` }}  style={styles.poster} resizeMode="cover" />
-      {!Platform.OS === 'ios' ? (
+      {Platform.OS === 'ios' ? (
         <BlurView style={styles.textContainer} blurType="light" blurAmount={10}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.genres}>{genres.join(', ')}</Text>
+          <Text style={styles.title} numberOfLines={2}>{title}</Text>
+          {/* <Text style={styles.genres}>{genres.join(', ')}</Text> */}
         </BlurView>
       ) : (
         <View style={styles.textContainer}>
           <Text style={styles.title}>{title}</Text>
-          <Text style={styles.genres}>{genres.join(',')}</Text>
+          {/* <Text style={styles.genres}>{genres.join(',')}</Text> */}
         </View>
       )}
     </View>
@@ -46,8 +46,13 @@ const styles = StyleSheet.create({
     },
   textContainer: {
     padding: 12,
-    backgroundColor: 'rgba(255, 255, 255, 0.4)',
-    // borderRadius: 20,
+    position:'absolute',
+    bottom: 0,
+    height:'35%',
+    backgroundColor: 'rgba(0, 0,0, 0.4)',
+    // alignSelf:'center',
+    width:'100%',
+    borderRadius: 20,
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
 
