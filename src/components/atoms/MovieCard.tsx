@@ -1,17 +1,19 @@
 // src/components/atoms/MovieCard.tsx
-
+ 
 import React from 'react';
 import { View, Text, StyleSheet, Image, Platform } from 'react-native';
 import { BlurView } from '@react-native-community/blur'; // Import BlurView from react-native-blur
-
+ 
 interface MovieCardProps {
   title: string;
   genres: string[];
   posterUrl: string;
 }
-
+ 
 const MovieCard: React.FC<MovieCardProps> = ({ title, genres, posterUrl }) => {
   return (
+    <>
+    {genres.length >=0  ?
     <View style={styles.container}>
       {/* Image with absolute positioning */}
       <Image source={{ uri: `https://image.tmdb.org/t/p/w500/${posterUrl}` }}  style={styles.poster} resizeMode="cover" />
@@ -21,15 +23,16 @@ const MovieCard: React.FC<MovieCardProps> = ({ title, genres, posterUrl }) => {
           {/* <Text style={styles.genres}>{genres.join(', ')}</Text> */}
         </BlurView>
       ) : (
-        <View style={styles.textContainer}>
+        <View style={[styles.textContainer,{backgroundColor:'rgba(0,0,0,0.8)'}]}>
           <Text style={styles.title}>{title}</Text>
           {/* <Text style={styles.genres}>{genres.join(',')}</Text> */}
         </View>
       )}
-    </View>
+    </View>:<Text>Null</Text> }
+    </>
   );
 };
-
+ 
 const styles = StyleSheet.create({
   container: {
     width: 150,
@@ -55,7 +58,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
-
+ 
   },
   title: {
     fontSize: 16,
@@ -68,5 +71,5 @@ const styles = StyleSheet.create({
     color: 'white',
   },
 });
-
+ 
 export default MovieCard;
