@@ -23,7 +23,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ title, genres, posterUrl }) => {
       ) : (
         <View style={styles.textContainer}>
           <Text style={styles.title}>{title}</Text>
-          <Text style={styles.genres}>{genres.join(', ')}</Text>
+          <Text style={styles.genres}>{genres.join(',')}</Text>
         </View>
       )}
     </View>

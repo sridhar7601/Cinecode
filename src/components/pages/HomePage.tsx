@@ -7,12 +7,11 @@ import {
   FlatList,
   ScrollView,
   ActivityIndicator,
+  RefreshControl
 } from 'react-native';
 import ImageBackground from '../atoms/ImageBackground';
 import YearList from '../atoms/YearList';
 import FilterOption from '../atoms/FilterOption';
-
-
 import action from '../../assets/filterlogo/action.png';
 import featured from '../../assets/filterlogo/featured.png';
 import horror from '../../assets/filterlogo/horror.png';
@@ -25,13 +24,20 @@ const HomePage: React.FC = () => {
   const apiKey = '2dca580c2a14b55200e784d157207b4d';
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
+  const [refreshing,setRefreshing] = useState(false);
 
   const scrollViewRef = useRef<ScrollView>(null);
 
-  const fetchMoviesForYear = async (year: number) => {
+  const fetchMoviesForYear = async (year: number, filters: string[]) => {
     setLoading(true);
+    console.log(filters,"filters")
     try {
-      const url = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&sort_by=popularity.desc&primary_release_year=${year}&page=1&vote_count.gte=100`;
+      let url = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&sort_by=popularity.desc&primary_release_year=${year}&page=1&vote_count.gte=100`;
+      // Add filters to the API request
+      if (filters.length > 0) {
+        const genresParam = filters.join(',');
+        url += `&with_genres=${genresParam}`;
+      }      
       const response = await axios.get(url);
       return response.data.results;
     } catch (error) {
@@ -40,27 +46,22 @@ const HomePage: React.FC = () => {
     } finally {
       setLoading(false);
     }
+    
   };
+  
 
   const loadMoreYears = async (direction: 'up' | 'down') => {
-    const currentYears = [...visibleYears];
-  
-    if (direction === 'down') {
-      const lastYear = currentYears[currentYears.length - 1];
-      const newYear = lastYear + 1;
-      const movies = await fetchMoviesForYear(newYear);
-      setMoviesByYear((prevMovies) => ({ ...prevMovies, [newYear]: movies }));
-      setVisibleYears((prevYears) => [...prevYears, newYear]);
-    } else if (direction === 'up') {
-      const firstYear = currentYears[0];
-      if (firstYear > 2012) {
-        const prevYear = firstYear - 1;
-        const movies = await fetchMoviesForYear(prevYear);
-        setMoviesByYear((prevMovies) => ({ ...prevMovies, [prevYear]: movies }));
-        setVisibleYears((prevYears) => [prevYear, ...prevYears]);
-      }
-    }
+    var lastYear;
+    setVisibleYears((prevYears) =>{
+      lastYear = prevYears[prevYears.length - 1];
+      return ([
+        ...prevYears,lastYear+1
+      ])
+    });
+    const movies = await fetchMoviesForYear(lastYear+1, selectedFilters);
+    setMoviesByYear((prevMovies) => ({ ...prevMovies, [lastYear+1]: movies }));
   };
+  
   const handleFilterSelect = (filter: string) => {
     const updatedFilters = selectedFilters.includes(filter)
       ? selectedFilters.filter((item) => item !== filter)
@@ -68,6 +69,21 @@ const HomePage: React.FC = () => {
     setSelectedFilters(updatedFilters);
     console.log('Selected Filters:', updatedFilters);
   };
+
+  async function onRefresh(){
+    setRefreshing(true);
+    //fetch data
+    var lastYear;
+     setVisibleYears((prevYears) =>{
+      lastYear = prevYears[0];
+      return ([
+        lastYear-1,...prevYears
+      ])
+    });
+      const movies = await fetchMoviesForYear(lastYear-1);
+      setMoviesByYear((prevMovies) => ({[lastYear-1]: movies, ...prevMovies }));
+    setRefreshing(false);
+  }
 
   const handleScroll = ({ nativeEvent }: any) => {
     setLoading(true);
@@ -92,26 +108,31 @@ const HomePage: React.FC = () => {
     />
   );
   const filterOptions = [
-    {label: 'Option 1', image: action},
-    {label: 'Option 2', image: scifi},
-    {label: 'Option 3', image: horror},
-    {label: 'Option 4', image: featured},
-    {label: 'Option 5', image: scifi},
+    {label: '28', image: action},
+    {label: '12', image: scifi},
+    {label: '16', image: horror},
+    {label: '35', image: featured},
+    {label: '99', image: scifi},
     // Add other options...
   ];
   useEffect(() => {
     const fetchInitialMovies = async () => {
+
       const movieData: { [year: string]: any[] } = {};
       await Promise.all(
         visibleYears.map(async (year) => {
-          const movies = await fetchMoviesForYear(year);
+          const movies = await fetchMoviesForYear(year, selectedFilters);
           movieData[year] = movies;
         })
       );
       setMoviesByYear(movieData);
+      
     };
     fetchInitialMovies();
-  }, []);
+    setLoading(false);
+
+  }, [visibleYears, selectedFilters]); // Include selectedFilters as a dependency
+  
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -128,25 +149,26 @@ const HomePage: React.FC = () => {
             keyExtractor={item => item.label}
           />
         </View>
-        <ScrollView
-          ref={scrollViewRef}
-          style={styles.container}
-          onScroll={handleScroll}
-          scrollEventThrottle={400}
-        >
-          {visibleYears.map((year) => (
-            <YearList key={year} year={year} movies={moviesByYear[year] || []} />
-          ))}
-          {loading && (
-            <View style={styles.loaderContainer}>
-              <ActivityIndicator size="large" color="gray" />
-            </View>
-          )}
-        </ScrollView>
+        <FlatList
+  style={styles.container}
+  data={visibleYears}
+  renderItem={({ item }) => 
+    <YearList year={item} movies={moviesByYear[item] || []} />}
+  keyExtractor={(item) => item.toString()}
+  onRefresh={onRefresh}
+  refreshing={refreshing}
+  onEndReached={() => loadMoreYears('down') }
+  ListFooterComponent={loading? <ActivityIndicator size="large" color="gray" />: null}
+  onEndReachedThreshold={0.1}
+  refreshControl={
+    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+  }
+/>
+
       </ImageBackground>
     </SafeAreaView>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
