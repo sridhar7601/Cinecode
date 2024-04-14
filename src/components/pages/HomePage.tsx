@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     marginBottom: 10,
     marginHorizontal: 10,
-    width:'100%',
+    width:'95%',
     borderRadius: 20,
     color: 'white', // Text color
   },
