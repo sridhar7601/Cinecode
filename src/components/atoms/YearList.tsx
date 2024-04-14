@@ -6,7 +6,7 @@ import MovieCard from './MovieCard';
  
 interface YearListProps {
   year: number;
-  movies: {id: number; title: string; genre_ids: string[]; poster_path: string}[];
+  movies: {id: number; title: string; genre_ids: string[]; poster_path: string;overView:string[];vote_average:number;release_date:string;original_language:string}[];
 }
  
 const YearList: React.FC<YearListProps> = ({year, movies}) => {
@@ -24,11 +24,16 @@ const YearList: React.FC<YearListProps> = ({year, movies}) => {
               title={item.title}
               genres={item.genre_ids}
               posterUrl={item.poster_path}
+              overview = {item.overview}
+              vote_average = {item.vote_average}
+              release_date = {item.release_date}
+              original_language = {item.original_language}
+              popularity = {item.popularity}
             />
           )}
           keyExtractor={item => item.id.toString()}
           horizontal
-          showsHorizontalScrollIndicator={false}
+          // showsHorizontalScrollIndicator={false}
         />
       ) : (
         <Text
