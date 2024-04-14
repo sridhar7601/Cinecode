@@ -77,7 +77,7 @@ const HomePage: React.FC = () => {
       ? selectedFilters.filter(item => item !== filter)
       : [...selectedFilters, filter];
     setSelectedFilters(updatedFilters);
-    console.log('Selected Filters:', updatedFilters);
+    // console.log('Selected Filters:', updatedFilters);
   };
 
   async function onRefresh() {
@@ -136,7 +136,7 @@ const HomePage: React.FC = () => {
             return movieTitle.includes(inputValue.toLowerCase());
           });
 
-          console.log(filteredMovies, 'filter');
+          // console.log(filteredMovies, 'filter');
           movieData[year] = filteredMovies;
         }),
       );
@@ -149,7 +149,7 @@ const HomePage: React.FC = () => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <ImageBackground source={require('../../assets/background.png')}>
-      <Text style={styles.title}>Welcome{'\n'}Sridhar</Text>
+      <Text style={styles.title}>Cinecode</Text>
 
       <TextInput
           style={styles.input}
@@ -198,7 +198,7 @@ const HomePage: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
+    padding: 5,
   },
   input: {
     height: 40,
@@ -217,7 +217,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   containerfilter: {
-    flex: 0.15,
+    flex: 0.16,
     justifyContent: 'center',
     alignItems: 'center',
     margin: 2,
@@ -228,7 +228,7 @@ const styles = StyleSheet.create({
     fontFamily: 'CarmenSans',
 
     color: 'white',
-    marginBottom: 10,
+    marginBottom: 5,
     marginLeft: 10,
     alignSelf: 'flex-start',
   },

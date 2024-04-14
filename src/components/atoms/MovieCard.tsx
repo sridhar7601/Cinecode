@@ -1,6 +1,6 @@
 // src/components/atoms/MovieCard.tsx
 
-import React, {useState} from 'react';
+import React, {useState, memo} from 'react';
 import {
   View,
   Text,
@@ -140,4 +140,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MovieCard;
+export default memo( MovieCard);

@@ -1,6 +1,6 @@
 // src/components/atoms/MovieDetailsPage.tsx
 
-import React from 'react';
+import React, { memo,useState }  from 'react';
 import {
   View,
   Text,
@@ -8,10 +8,13 @@ import {
   Image,
   ScrollView,
   StyleSheet,
+  ActivityIndicator
 } from 'react-native';
 import {genreMapping} from '../utils/genreMapping';
 
 const MovieDetailsPage = ({route}) => {
+  const [imageLoaded, setImageLoaded] = useState(false);
+
   const {
     title,
     posterUrl,
@@ -21,8 +24,23 @@ const MovieDetailsPage = ({route}) => {
     genres,
     popularity,
   } = route.params;
+  const loadImage = () => {
+    return new Promise((resolve, reject) => {
+      const image = new Image();
+      image.src = `https://image.tmdb.org/t/p/w500/${posterUrl}`;
+      image.onload = () => {
+        setImageLoaded(true);
+        resolve();
+      };
+      image.onerror = error => {
+        console.error('Error loading image:', error);
+        reject();
+      };
+    });
+  };
+
   const langOfMov = original_language.toUpperCase();
-  console.log(genres, 'genre');
+  // console.log(genres, 'genre');
   const renderGenres = () => {
     return genres.map(id => {
       const genreName = genreMapping[id] || 'Unknown Genre';
@@ -36,10 +54,19 @@ const MovieDetailsPage = ({route}) => {
 
   return (
     <SafeAreaView style={styles.safeArea}>
+      {!imageLoaded ? (
+        <ActivityIndicator
+          size="large"
+          color="gray"
+          style={styles.activityIndicator}
+        />
+      ) : null}
       <Image
         blurRadius={Platform.OS === 'ios' ? 10 : 3}
         source={{uri: `https://image.tmdb.org/t/p/w500/${posterUrl}`}}
         style={styles.poster}
+        onLoad={() => setImageLoaded(true)}
+        onError={() => setImageLoaded(false)}
       />
 
       <Image
@@ -183,4 +210,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MovieDetailsPage;
+export default memo( MovieDetailsPage);

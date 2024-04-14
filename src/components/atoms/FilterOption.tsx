@@ -1,6 +1,6 @@
 // src/components/atoms/FilterOption.tsx
 
-import React from 'react';
+import React ,{ memo } from 'react';
 import {TouchableOpacity, Text, StyleSheet, Image} from 'react-native';
 
 interface FilterOptionProps {
@@ -50,4 +50,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FilterOption;
+export default memo(FilterOption);

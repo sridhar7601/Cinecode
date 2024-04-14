@@ -1,6 +1,6 @@
 // src/components/atoms/ImageBackground.tsx
 
-import React, {ReactNode} from 'react';
+import React, {ReactNode,memo} from 'react';
 import {ImageBackground, StyleSheet, View, ViewStyle} from 'react-native';
 import {BlurView} from '@react-native-community/blur';
 
@@ -37,4 +37,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ImageBackgroundComponent;
+export default memo(ImageBackgroundComponent);
