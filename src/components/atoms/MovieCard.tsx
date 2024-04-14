@@ -1,3 +1,5 @@
+// src/components/atoms/MovieCard.tsx
+
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image, Platform, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { BlurView } from '@react-native-community/blur';

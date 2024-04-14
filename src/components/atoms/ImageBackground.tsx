@@ -1,3 +1,5 @@
+// src/components/atoms/ImageBackground.tsx
+
 import React, {ReactNode} from 'react';
 import {ImageBackground, StyleSheet, View, ViewStyle} from 'react-native';
 import {BlurView} from '@react-native-community/blur';

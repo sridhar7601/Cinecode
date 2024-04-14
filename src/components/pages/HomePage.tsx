@@ -1,4 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+// src/components/pages/HomePage.tsx
+
+import React, {useState, useEffect, useRef} from 'react';
 import {
   View,
   Text,
@@ -7,7 +9,8 @@ import {
   FlatList,
   ScrollView,
   ActivityIndicator,
-  RefreshControl,Alert
+  RefreshControl,
+  Alert,
 } from 'react-native';
 import ImageBackground from '../atoms/ImageBackground';
 import YearList from '../atoms/YearList';
@@ -16,20 +19,30 @@ import action from '../../assets/filterlogo/action.png';
 import featured from '../../assets/filterlogo/featured.png';
 import horror from '../../assets/filterlogo/horror.png';
 import scifi from '../../assets/filterlogo/scifi.png';
+import adventure from '../../assets/filterlogo/adventure.png';
+import comedy from '../../assets/filterlogo/comedy.png';
+import crime from '../../assets/filterlogo/crime.png';
+import romance from '../../assets/filterlogo/romance.png';
+import thriller from '../../assets/filterlogo/thriller.png';
+import war from '../../assets/filterlogo/war.png';
+
 import axios from 'axios';
 
 const HomePage: React.FC = () => {
-  const [moviesByYear, setMoviesByYear] = useState<{ [year: string]: any[] }>({});
-  const [visibleYears, setVisibleYears] = useState<number[]>([2012, 2013, 2014]);
+  const [moviesByYear, setMoviesByYear] = useState<{[year: string]: any[]}>({});
+  const [visibleYears, setVisibleYears] = useState<number[]>([
+    2012, 2013, 2014,
+  ]);
   const apiKey = '2dca580c2a14b55200e784d157207b4d';
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
-  const [refreshing,setRefreshing] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
 
   const scrollViewRef = useRef<ScrollView>(null);
 
   const fetchMoviesForYear = async (year: number, filters: string[]) => {
     setLoading(true);
+    // if(year >=2025) return;
     // console.log(popularity,"popularity")
     try {
       let url = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&sort_by=popularity.desc&primary_release_year=${year}&page=1&vote_count.gte=100`;
@@ -37,7 +50,7 @@ const HomePage: React.FC = () => {
       if (filters.length > 0) {
         const genresParam = filters.join(',');
         url += `&with_genres=${genresParam}`;
-      }      
+      }
       const response = await axios.get(url);
       return response.data.results;
     } catch (error) {
@@ -47,53 +60,47 @@ const HomePage: React.FC = () => {
     } finally {
       setLoading(false);
     }
-    
   };
-  
 
   const loadMoreYears = async (direction: 'up' | 'down') => {
     var lastYear;
-    setVisibleYears((prevYears) =>{
+    setVisibleYears(prevYears => {
       lastYear = prevYears[prevYears.length - 1];
-      return ([
-        ...prevYears,lastYear+1
-      ])
+      return [...prevYears, lastYear + 1];
     });
-    const movies = await fetchMoviesForYear(lastYear+1, selectedFilters);
-    setMoviesByYear((prevMovies) => ({ ...prevMovies, [lastYear+1]: movies }));
+    const movies = await fetchMoviesForYear(lastYear + 1, selectedFilters);
+    setMoviesByYear(prevMovies => ({...prevMovies, [lastYear + 1]: movies}));
   };
-  
+
   const handleFilterSelect = (filter: string) => {
     const updatedFilters = selectedFilters.includes(filter)
-      ? selectedFilters.filter((item) => item !== filter)
+      ? selectedFilters.filter(item => item !== filter)
       : [...selectedFilters, filter];
     setSelectedFilters(updatedFilters);
     console.log('Selected Filters:', updatedFilters);
   };
 
-  async function onRefresh(){
+  async function onRefresh() {
     setRefreshing(true);
     //fetch data
     var lastYear;
-     setVisibleYears((prevYears) =>{
+    setVisibleYears(prevYears => {
       lastYear = prevYears[0];
-      return ([
-        lastYear-1,...prevYears
-      ])
+      return [lastYear - 1, ...prevYears];
     });
-      const movies = await fetchMoviesForYear(lastYear-1);
-      setMoviesByYear((prevMovies) => ({[lastYear-1]: movies, ...prevMovies }));
+    const movies = await fetchMoviesForYear(lastYear - 1);
+    setMoviesByYear(prevMovies => ({[lastYear - 1]: movies, ...prevMovies}));
     setRefreshing(false);
   }
 
-  const handleScroll = ({ nativeEvent }: any) => {
+  const handleScroll = ({nativeEvent}: any) => {
     setLoading(true);
 
-    const { layoutMeasurement, contentOffset, contentSize } = nativeEvent;
+    const {layoutMeasurement, contentOffset, contentSize} = nativeEvent;
     const scrollHeight = layoutMeasurement.height + contentOffset.y;
     if (scrollHeight >= contentSize.height - 20) {
       loadMoreYears('down');
-// if ()
+      // if ()
     } else if (contentOffset.y <= 0) {
       setLoading(true);
 
@@ -110,30 +117,32 @@ const HomePage: React.FC = () => {
   );
   const filterOptions = [
     {label: '28', image: action},
-    {label: '12', image: scifi},
-    {label: '16', image: horror},
-    {label: '35', image: featured},
-    {label: '99', image: scifi},
+    {label: '878', image: scifi},
+    {label: '27', image: horror},
+    {label: '99', image: adventure},
+    {label: '98', image: scifi},
+    {label: '35', image: comedy},
+    {label: '80', image: crime},
+    {label: '10749', image: romance},
+    {label: '53', image: thriller},
+    {label: '10752', image: war},
+
     // Add other options...
   ];
   useEffect(() => {
     const fetchInitialMovies = async () => {
-
-      const movieData: { [year: string]: any[] } = {};
+      const movieData: {[year: string]: any[]} = {};
       await Promise.all(
-        visibleYears.map(async (year) => {
+        visibleYears.map(async year => {
           const movies = await fetchMoviesForYear(year, selectedFilters);
           movieData[year] = movies;
-        })
+        }),
       );
       setMoviesByYear(movieData);
-      
     };
     fetchInitialMovies();
     setLoading(false);
-
   }, [visibleYears, selectedFilters]); // Include selectedFilters as a dependency
-  
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -151,25 +160,29 @@ const HomePage: React.FC = () => {
           />
         </View>
         <FlatList
-  style={styles.container}
-  data={visibleYears}
-  renderItem={({ item }) => 
-    <YearList year={item} movies={moviesByYear[item] || []} />}
-  keyExtractor={(item) => item.toString()}
-  onRefresh={onRefresh}
-  refreshing={refreshing}
-  onEndReached={() => loadMoreYears('down') }
-  ListFooterComponent={loading? <ActivityIndicator size="large" color="gray" />: null}
-  onEndReachedThreshold={0.1}
-  refreshControl={
-    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-  }
-/>
-
+          style={styles.container}
+          data={visibleYears}
+          renderItem={({item}) => {
+            return item <= 2024 ? (
+              <YearList year={item} movies={moviesByYear[item] || []} />
+            ) : null;
+          }}
+          keyExtractor={item => item.toString()}
+          onRefresh={onRefresh}
+          refreshing={refreshing}
+          onEndReached={() => loadMoreYears('down')}
+          ListFooterComponent={
+            loading ? <ActivityIndicator size="large" color="gray" /> : null
+          }
+          onEndReachedThreshold={0.5}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+        />
       </ImageBackground>
     </SafeAreaView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {

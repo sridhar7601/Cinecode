@@ -1,8 +1,9 @@
 // src/components/atoms/YearList.tsx
  
-import React from 'react';
+import React, { memo } from 'react';
 import {View, Text, StyleSheet, FlatList} from 'react-native';
 import MovieCard from './MovieCard';
+
  
 interface YearListProps {
   year: number;

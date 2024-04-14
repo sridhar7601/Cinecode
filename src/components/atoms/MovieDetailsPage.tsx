@@ -1,3 +1,5 @@
+// src/components/atoms/MovieDetailsPage.tsx
+
 import React from 'react';
 import {
   View,
@@ -40,6 +42,7 @@ const MovieDetailsPage = ({route}) => {
         style={styles.innerposter}
       />
       {/* <Image  blurRadius={15 } source={whiteBackground} style={styles.backgroundwhite} /> */}
+
 
       <View style={styles.detailsarea}>
         <View style={styles.firstrow}>
