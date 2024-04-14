@@ -22,6 +22,8 @@ const YearList: React.FC<YearListProps> = ({year, movies}) => {
               key={item.id.toString()}
               title={item.title}
               genres={item.genre_ids}
+              showsHorizontalScrollIndicator={false}
+
               posterUrl={item.poster_path}
               overview = {item.overview}
               vote_average = {item.vote_average}

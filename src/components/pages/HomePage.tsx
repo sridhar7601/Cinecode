@@ -10,6 +10,7 @@ import {
   ScrollView,
   ActivityIndicator,
   RefreshControl,
+  TextInput,
 } from 'react-native';
 import ImageBackground from '../atoms/ImageBackground';
 import YearList from '../atoms/YearList';
@@ -31,10 +32,13 @@ const HomePage: React.FC = () => {
   const [visibleYears, setVisibleYears] = useState<number[]>([
     2012, 2013, 2014,
   ]);
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [filteredMovies, setFilteredMovies] = useState<any[]>([]);
   const apiKey = '2dca580c2a14b55200e784d157207b4d';
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
+  const [inputValue, setInputValue] = useState('');
 
   const fetchMoviesForYear = async (year: number, filters: string[]) => {
     setLoading(true);
@@ -64,7 +68,10 @@ const HomePage: React.FC = () => {
     const movies = await fetchMoviesForYear(lastYear + 1, selectedFilters);
     setMoviesByYear(prevMovies => ({...prevMovies, [lastYear + 1]: movies}));
   };
+  const handleInputChange = (text: string) => {
+    setInputValue(text); // Update the state with the new input value
 
+  };
   const handleFilterSelect = (filter: string) => {
     const updatedFilters = selectedFilters.includes(filter)
       ? selectedFilters.filter(item => item !== filter)
@@ -75,16 +82,24 @@ const HomePage: React.FC = () => {
 
   async function onRefresh() {
     setRefreshing(true);
-    //fetch data
-    let lastYear;
-    setVisibleYears(prevYears => {
-      lastYear = prevYears[0];
-      return [lastYear - 1, ...prevYears];
-    });
-    const movies = await fetchMoviesForYear(lastYear - 1);
-    setMoviesByYear(prevMovies => ({[lastYear - 1]: movies, ...prevMovies}));
-    setRefreshing(false);
+
+    // Ensure visibleYears is not empty
+    if (visibleYears.length > 0) {
+      let lastYear = visibleYears[0]; // Access the first year
+
+      // Prepend the previous year to visibleYears
+      setVisibleYears(prevYears => [lastYear - 1, ...prevYears]);
+
+      // Fetch movies for the previous year
+      const movies = await fetchMoviesForYear(lastYear - 1, selectedFilters);
+
+      // Update moviesByYear state with the fetched movies
+      setMoviesByYear(prevMovies => ({[lastYear - 1]: movies, ...prevMovies}));
+    }
+
+    setRefreshing(false); // Finish refreshing
   }
+
   const renderItem = ({item}: {item: any}) => (
     <FilterOption
       label={item.label}
@@ -106,26 +121,45 @@ const HomePage: React.FC = () => {
     {label: '10752', image: war},
   ];
   useEffect(() => {
+    setLoading(true);
     const fetchInitialMovies = async () => {
       const movieData: {[year: string]: any[]} = {};
       await Promise.all(
         visibleYears.map(async year => {
           const movies = await fetchMoviesForYear(year, selectedFilters);
-          movieData[year] = movies;
+          let filteredMovies = movies.filter(movie => {
+            // Convert both movie title and keyword to lowercase for case-insensitive comparison
+            // const keyword = "the"; // The keyword you want to search for (e.g., "Avengers")
+            const movieTitle = movie.title.toLowerCase(); // Convert movie title to lowercase
+
+            // Check if the movie title includes the keyword (case-insensitive)
+            return movieTitle.includes(inputValue.toLowerCase());
+          });
+
+          console.log(filteredMovies, 'filter');
+          movieData[year] = filteredMovies;
         }),
       );
       setMoviesByYear(movieData);
     };
     fetchInitialMovies();
     setLoading(false);
-  }, [visibleYears, selectedFilters]); // Include selectedFilters as a dependency
+  }, [visibleYears, selectedFilters,inputValue]); 
 
   return (
     <SafeAreaView style={styles.safeArea}>
       <ImageBackground source={require('../../assets/background.png')}>
-        <Text style={styles.title}>Welcome{'\n'}Sridhar</Text>
+      <Text style={styles.title}>Welcome{'\n'}Sridhar</Text>
 
-        <Text style={styles.browse}>Browse By</Text>
+      <TextInput
+          style={styles.input}
+          value={inputValue}
+          onChangeText={handleInputChange}
+          placeholder="Search movies..."
+          placeholderTextColor="#999"
+        />
+<Text style={styles.browse}>Browse By</Text>
+
         <View style={styles.containerfilter}>
           <FlatList
             horizontal
@@ -146,6 +180,7 @@ const HomePage: React.FC = () => {
           keyExtractor={item => item.toString()}
           onRefresh={onRefresh}
           refreshing={refreshing}
+          showsHorizontalScrollIndicator={false}
           onEndReached={() => loadMoreYears('down')}
           ListFooterComponent={
             loading ? <ActivityIndicator size="large" color="gray" /> : null
@@ -164,6 +199,18 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
+  },
+  input: {
+    height: 40,
+    borderWidth: 1,
+    borderColor: 'lightgray',
+    backgroundColor: 'rgba(255, 255, 255, 0.1)', // Light transparent background
+    paddingHorizontal: 10,
+    marginBottom: 10,
+    marginHorizontal: 10,
+    width:'100%',
+    borderRadius: 20,
+    color: 'white', // Text color
   },
   safeArea: {
     flex: 1,
