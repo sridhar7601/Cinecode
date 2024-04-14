@@ -10,9 +10,7 @@ interface YearListProps {
   movies: {id: number; title: string; genre_ids: string[]; poster_path: string;overView:string[];vote_average:number;release_date:string;original_language:string}[];
 }
  
-const YearList: React.FC<YearListProps> = ({year, movies}) => {
-  // console.log(movies,"yearlist");
- 
+const YearList: React.FC<YearListProps> = ({year, movies}) => { 
   return (
     <View style={styles.container}>
       <Text style={styles.year}>{year}</Text>
@@ -34,7 +32,6 @@ const YearList: React.FC<YearListProps> = ({year, movies}) => {
           )}
           keyExtractor={item => item.id.toString()}
           horizontal
-          // showsHorizontalScrollIndicator={false}
         />
       ) : (
         <Text
@@ -62,9 +59,8 @@ const styles = StyleSheet.create({
     marginLeft: 16,
     color: 'white',
     width: 70,
-    // backgroundColor: 'black',
   },
 });
  
-export default YearList;
+export default memo(YearList);
  

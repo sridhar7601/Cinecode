@@ -1,9 +1,17 @@
 // src/components/atoms/MovieCard.tsx
 
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, Image, Platform, TouchableOpacity, ActivityIndicator } from 'react-native';
-import { BlurView } from '@react-native-community/blur';
-import { useNavigation } from '@react-navigation/native';
+import React, {useState} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  Platform,
+  TouchableOpacity,
+  ActivityIndicator,
+} from 'react-native';
+import {BlurView} from '@react-native-community/blur';
+import {useNavigation} from '@react-navigation/native';
 
 interface MovieCardProps {
   title: string;
@@ -16,7 +24,16 @@ interface MovieCardProps {
   popularity: number;
 }
 
-const MovieCard: React.FC<MovieCardProps> = ({ title, genres, posterUrl, overview, vote_average, release_date, original_language, popularity }) => {
+const MovieCard: React.FC<MovieCardProps> = ({
+  title,
+  genres,
+  posterUrl,
+  overview,
+  vote_average,
+  release_date,
+  original_language,
+  popularity,
+}) => {
   const navigation = useNavigation();
   const [imageLoaded, setImageLoaded] = useState(false);
 
@@ -29,7 +46,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ title, genres, posterUrl, overvie
       vote_average,
       release_date,
       original_language,
-      popularity
+      popularity,
     });
   };
 
@@ -41,7 +58,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ title, genres, posterUrl, overvie
         setImageLoaded(true);
         resolve();
       };
-      image.onerror = (error) => {
+      image.onerror = error => {
         console.error('Error loading image:', error);
         reject();
       };
@@ -51,10 +68,14 @@ const MovieCard: React.FC<MovieCardProps> = ({ title, genres, posterUrl, overvie
   return (
     <TouchableOpacity style={styles.container} onPress={handlePress}>
       {!imageLoaded ? (
-        <ActivityIndicator size="large" color="gray" style={styles.activityIndicator} />
+        <ActivityIndicator
+          size="large"
+          color="gray"
+          style={styles.activityIndicator}
+        />
       ) : null}
       <Image
-        source={{ uri: `https://image.tmdb.org/t/p/w500/${posterUrl}` }}
+        source={{uri: `https://image.tmdb.org/t/p/w500/${posterUrl}`}}
         style={styles.poster}
         resizeMode="cover"
         onLoad={() => setImageLoaded(true)}
@@ -62,7 +83,9 @@ const MovieCard: React.FC<MovieCardProps> = ({ title, genres, posterUrl, overvie
       />
       {Platform.OS === 'ios' ? (
         <BlurView style={styles.textContainer} blurType="light" blurAmount={10}>
-          <Text style={styles.title} numberOfLines={2}>{title}</Text>
+          <Text style={styles.title} numberOfLines={2}>
+            {title}
+          </Text>
         </BlurView>
       ) : (
         <View style={styles.textContainer}>
@@ -81,7 +104,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     overflow: 'hidden',
     flexDirection: 'column',
-    position: 'relative', // Ensure activity indicator is positioned correctly
+    position: 'relative',
   },
   poster: {
     flex: 1,
@@ -111,7 +134,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     color: 'white',
-    fontSize: 16,
     justifyContent: 'center',
     textAlign: 'center',
     marginBottom: 4,

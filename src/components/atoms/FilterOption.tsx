@@ -24,34 +24,25 @@ const FilterOption: React.FC<FilterOptionProps> = ({
       ]}
       onPress={onSelect}>
       <Image source={image} style={styles.image} />
-      {/* <Text style={styles.optionText}>{label}</Text> */}
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   optionContainer: {
-    // paddingHorizontal: 6,
-    // paddingVertical: 0, //content in inside
     marginRight: 8,
     borderRadius: 20,
     height: 54,
-    // borderWidth: 1,
-    // borderColor: '#007bff',
+
     borderWidth: 2,
     borderColor: 'transparent',
   },
   image: {
-    width: 100, // Adjust as needed
-    height: 50, // Adjust as needed
+    width: 100,
+    height: 50,
   },
-  // optionText: {
-  //   color: '#007bff',
-  //   fontWeight: 'bold',
-  // },
+
   selectedOption: {
-    // backgroundColor: '#e9ecef'
-    // color:'black'
     borderColor: 'teal',
   },
   unselectedOption: {

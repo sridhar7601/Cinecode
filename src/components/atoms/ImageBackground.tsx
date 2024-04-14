@@ -5,9 +5,9 @@ import {ImageBackground, StyleSheet, View, ViewStyle} from 'react-native';
 import {BlurView} from '@react-native-community/blur';
 
 interface ImageBackgroundProps {
-  source: any; // Image source
-  children?: ReactNode; // Child components
-  style?: ViewStyle; // Additional styles
+  source: any; 
+  children?: ReactNode; 
+  style?: ViewStyle; 
 }
 
 const ImageBackgroundComponent: React.FC<ImageBackgroundProps> = ({
@@ -18,7 +18,6 @@ const ImageBackgroundComponent: React.FC<ImageBackgroundProps> = ({
   return (
     <View style={[styles.container, style]}>
       <ImageBackground source={source} style={styles.imageBackground}>
-        {/* <BlurView style={StyleSheet.absoluteFill} blurType="light" blurAmount={20} /> */}
         {children}
       </ImageBackground>
     </View>
@@ -28,8 +27,6 @@ const ImageBackgroundComponent: React.FC<ImageBackgroundProps> = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // borderTopLeftRadius:20,
-    // borderTopRightRadius:20,
     overflow: 'hidden',
   },
   imageBackground: {

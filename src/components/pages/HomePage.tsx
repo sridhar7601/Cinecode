@@ -10,13 +10,11 @@ import {
   ScrollView,
   ActivityIndicator,
   RefreshControl,
-  Alert,
 } from 'react-native';
 import ImageBackground from '../atoms/ImageBackground';
 import YearList from '../atoms/YearList';
 import FilterOption from '../atoms/FilterOption';
 import action from '../../assets/filterlogo/action.png';
-import featured from '../../assets/filterlogo/featured.png';
 import horror from '../../assets/filterlogo/horror.png';
 import scifi from '../../assets/filterlogo/scifi.png';
 import adventure from '../../assets/filterlogo/adventure.png';
@@ -38,15 +36,11 @@ const HomePage: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
 
-  const scrollViewRef = useRef<ScrollView>(null);
-
   const fetchMoviesForYear = async (year: number, filters: string[]) => {
     setLoading(true);
-    // if(year >=2025) return;
-    // console.log(popularity,"popularity")
+
     try {
       let url = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&sort_by=popularity.desc&primary_release_year=${year}&page=1&vote_count.gte=100`;
-      // Add filters to the API request
       if (filters.length > 0) {
         const genresParam = filters.join(',');
         url += `&with_genres=${genresParam}`;
@@ -55,7 +49,6 @@ const HomePage: React.FC = () => {
       return response.data.results;
     } catch (error) {
       console.error('Error fetching movies:', error);
-      // Alert.alert("No Data")
       return [];
     } finally {
       setLoading(false);
@@ -63,7 +56,7 @@ const HomePage: React.FC = () => {
   };
 
   const loadMoreYears = async (direction: 'up' | 'down') => {
-    var lastYear;
+    let lastYear;
     setVisibleYears(prevYears => {
       lastYear = prevYears[prevYears.length - 1];
       return [...prevYears, lastYear + 1];
@@ -83,7 +76,7 @@ const HomePage: React.FC = () => {
   async function onRefresh() {
     setRefreshing(true);
     //fetch data
-    var lastYear;
+    let lastYear;
     setVisibleYears(prevYears => {
       lastYear = prevYears[0];
       return [lastYear - 1, ...prevYears];
@@ -92,21 +85,6 @@ const HomePage: React.FC = () => {
     setMoviesByYear(prevMovies => ({[lastYear - 1]: movies, ...prevMovies}));
     setRefreshing(false);
   }
-
-  const handleScroll = ({nativeEvent}: any) => {
-    setLoading(true);
-
-    const {layoutMeasurement, contentOffset, contentSize} = nativeEvent;
-    const scrollHeight = layoutMeasurement.height + contentOffset.y;
-    if (scrollHeight >= contentSize.height - 20) {
-      loadMoreYears('down');
-      // if ()
-    } else if (contentOffset.y <= 0) {
-      setLoading(true);
-
-      loadMoreYears('up');
-    }
-  };
   const renderItem = ({item}: {item: any}) => (
     <FilterOption
       label={item.label}
@@ -126,8 +104,6 @@ const HomePage: React.FC = () => {
     {label: '10749', image: romance},
     {label: '53', image: thriller},
     {label: '10752', image: war},
-
-    // Add other options...
   ];
   useEffect(() => {
     const fetchInitialMovies = async () => {
@@ -191,7 +167,7 @@ const styles = StyleSheet.create({
   },
   safeArea: {
     flex: 1,
-    backgroundColor: 'white', // Background color behind the safe area (adjust as needed)
+    backgroundColor: 'white',
   },
   containerfilter: {
     flex: 0.15,
@@ -202,7 +178,8 @@ const styles = StyleSheet.create({
   browse: {
     fontSize: 20,
     fontWeight: 'normal',
-    fontFamily: 'CarmenSans', // use the exact name of the font file without the extension
+    fontFamily: 'CarmenSans',
+
     color: 'white',
     marginBottom: 10,
     marginLeft: 10,

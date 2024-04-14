@@ -9,16 +9,22 @@ import {
   ScrollView,
   StyleSheet,
 } from 'react-native';
-import whiteBackground from '../../assets/blur-background.png';
-import { genreMapping } from '../utils/genreMapping';
+import {genreMapping} from '../utils/genreMapping';
 
 const MovieDetailsPage = ({route}) => {
-  // Extract the parameters from the route
-  const {title, posterUrl, vote_average,original_language, overview,genres,popularity} = route.params;
+  const {
+    title,
+    posterUrl,
+    vote_average,
+    original_language,
+    overview,
+    genres,
+    popularity,
+  } = route.params;
   const langOfMov = original_language.toUpperCase();
   console.log(genres, 'genre');
   const renderGenres = () => {
-    return genres.map((id) => {
+    return genres.map(id => {
       const genreName = genreMapping[id] || 'Unknown Genre';
       return (
         <View key={id} style={styles.genreBox}>
@@ -27,7 +33,6 @@ const MovieDetailsPage = ({route}) => {
       );
     });
   };
-
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -41,22 +46,21 @@ const MovieDetailsPage = ({route}) => {
         source={{uri: `https://image.tmdb.org/t/p/w500/${posterUrl}`}}
         style={styles.innerposter}
       />
-      {/* <Image  blurRadius={15 } source={whiteBackground} style={styles.backgroundwhite} /> */}
-
 
       <View style={styles.detailsarea}>
         <View style={styles.firstrow}>
-        <Text style={styles.centeredText}>
+          <Text style={styles.centeredText}>
             {vote_average}/ 10 {'\n'}
             Rating
           </Text>
           <Text style={styles.centeredText}>
-          {langOfMov}{'\n'}
-          Lang
+            {langOfMov}
+            {'\n'}
+            Lang
           </Text>
           <Text style={styles.centeredText}>
-          {popularity} {'\n'}
-          Popularity
+            {popularity} {'\n'}
+            Popularity
           </Text>
         </View>
         <View style={styles.titlearea}>
@@ -75,8 +79,7 @@ const MovieDetailsPage = ({route}) => {
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.genresContainer}
-        >
+          contentContainerStyle={styles.genresContainer}>
           {renderGenres()}
         </ScrollView>
         <View style={styles.overviewarea}>
@@ -92,10 +95,10 @@ const MovieDetailsPage = ({route}) => {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    // backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
-  }, genreBox: {
+  },
+  genreBox: {
     backgroundColor: '#e5e5e5',
     paddingHorizontal: 12,
     paddingVertical: 6,
@@ -111,7 +114,8 @@ const styles = StyleSheet.create({
     height: '30%',
     position: 'absolute',
     bottom: 20,
-  }, centeredText: {
+  },
+  centeredText: {
     flex: 1,
     textAlign: 'center',
     fontSize: 16,
@@ -120,14 +124,12 @@ const styles = StyleSheet.create({
   poster: {
     width: '120%',
     height: '100%',
-    // borderRadius: 10,
-    // marginBottom: 20,
   },
   genresContainer: {
-    flexDirection: 'row', // Ensure genres are laid out horizontally
-    flexWrap: 'wrap',      // Allow genres to wrap to the next line
-    justifyContent: 'center', // Center genres horizontally within the container
-    alignItems: 'center',      // Align genres vertically within the container
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    alignItems: 'center',
     marginBottom: 12,
   },
   innerposter: {
@@ -136,11 +138,9 @@ const styles = StyleSheet.create({
     borderRadius: 20,
 
     width: '60%',
-    // backgroundColor: 'red',
     height: '53%',
   },
   titlearea: {
-    // backgroundColor: 'black',
     alignItems: 'center',
     paddingVertical: 15,
     justifyContent: 'space-around',
@@ -153,21 +153,17 @@ const styles = StyleSheet.create({
     display: 'flex',
     textAlign: 'center',
     alignItems: 'center',
-
-    // backgroundColor: 'black',
     width: '100%',
 
     flexDirection: 'row',
     justifyContent: 'space-evenly',
-    // alignItems: 'center'
   },
   overviewarea: {
     position: 'absolute',
     bottom: 0,
     alignItems: 'center',
-    justifyContent:'center',
+    justifyContent: 'center',
     width: '100%',
-    // backgroundColor: 'orange',
     height: '50%',
   },
   title: {
