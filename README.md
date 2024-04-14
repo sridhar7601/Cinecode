@@ -7,7 +7,7 @@ Cinecode a Fancode inspired App
 
 - [Installation](#installation)
 - [Usage](#usage)
-- [Contributing](#contributing)
+- [Demo](#demo)
 - [License](#license)
 
 ## Installation
@@ -42,4 +42,5 @@ Cinecode a Fancode inspired App
     npx react-native run-ios
     #or
     npx react-native run-android
+
 
