@@ -11,7 +11,7 @@ Cinecode is a Fancode-inspired App.
 - [MacOs](#macos)
 - [Usage](#usage)
 - [Demo](#demo)
-- [UI](ui)
+- [UI](#ui)
 - [Test](#test)
 - [License](#license)
 
