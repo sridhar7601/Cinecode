@@ -11,6 +11,7 @@ Cinecode is a Fancode-inspired App.
 - [MacOs](#macos)
 - [Usage](#usage)
 - [Demo](#demo)
+- [Test](#test)
 - [License](#license)
 
 ## Prerequisites
@@ -82,7 +83,7 @@ A Demo video with features including search, multiple filters, and load movies w
 
 https://github.com/sridhar7601/Cinecode/assets/56919037/7d36fe42-bbdc-474f-a236-e08b34690276
 
-
+## Test(Ongoing)
 
 As per the request and user scrolling if the user scrolls up, it has to list old movies(which is not the appropriate use-case but customizable)
 
