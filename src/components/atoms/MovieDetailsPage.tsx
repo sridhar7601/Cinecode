@@ -69,7 +69,7 @@ const MovieDetailsPage = ({route}) => {
         blurType="light"
         blurAmount={10}> */}
       {!Platform.OS === 'ios' ? (
-        <View blurType="light" blurAmount={10} style={styles.detailsarea}>
+        <View style={styles.detailsarea}>
           <View style={styles.firstrow}>
             <Text style={styles.centeredText}>
               {vote_average.toFixed(1)} / 10 {'\n'}
