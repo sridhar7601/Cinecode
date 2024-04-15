@@ -1,7 +1,7 @@
 // src/components/atoms/FilterOption.tsx
 
 import React ,{ memo } from 'react';
-import {TouchableOpacity, Text, StyleSheet, Image} from 'react-native';
+import {TouchableOpacity, StyleSheet, Image} from 'react-native';
 
 interface FilterOptionProps {
   label: string;

@@ -1,17 +1,16 @@
 // src/components/pages/HomePage.tsx
-
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
   StyleSheet,
   SafeAreaView,
   FlatList,
-  ScrollView,
   ActivityIndicator,
   RefreshControl,
   TextInput,
 } from 'react-native';
+import NetInfo from '@react-native-community/netinfo';
 import ImageBackground from '../atoms/ImageBackground';
 import YearList from '../atoms/YearList';
 import FilterOption from '../atoms/FilterOption';
@@ -28,12 +27,22 @@ import war from '../../assets/filterlogo/war.png';
 import axios from 'axios';
 
 const HomePage: React.FC = () => {
+  const [isConnected, setConnected] = useState(false);
+  useEffect(() => {
+    const unsubscribe = NetInfo.addEventListener(state => {
+      console.log('Connection type', state.type);
+      console.log('Is connected?', state.isConnected);
+      setConnected(state.isConnected);
+    });
+    return () => {
+      // Unsubscribe
+      unsubscribe();
+    };
+  }, []);
   const [moviesByYear, setMoviesByYear] = useState<{[year: string]: any[]}>({});
-  const [visibleYears, setVisibleYears] = useState<number[]>([
-    2012, 2013, 2014,
-  ]);
-  const [searchQuery, setSearchQuery] = useState<string>('');
-  const [filteredMovies, setFilteredMovies] = useState<any[]>([]);
+  const [visibleYears, setVisibleYears] = useState<number[]>([2012]);
+  // const [searchQuery, setSearchQuery] = useState<string>('');
+  // const [filteredMovies, setFilteredMovies] = useState<any[]>([]);
   const apiKey = '2dca580c2a14b55200e784d157207b4d';
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
@@ -70,7 +79,6 @@ const HomePage: React.FC = () => {
   };
   const handleInputChange = (text: string) => {
     setInputValue(text); // Update the state with the new input value
-
   };
   const handleFilterSelect = (filter: string) => {
     const updatedFilters = selectedFilters.includes(filter)
@@ -144,53 +152,56 @@ const HomePage: React.FC = () => {
     };
     fetchInitialMovies();
     setLoading(false);
-  }, [visibleYears, selectedFilters,inputValue]); 
+  }, [visibleYears, selectedFilters, inputValue]);
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <ImageBackground source={require('../../assets/background.png')}>
-      <Text style={styles.title}>Cinecode</Text>
+      {isConnected ? ( // Render content only when isConnected state is initialized
+        <ImageBackground source={require('../../assets/background.png')}>
+          <Text style={styles.title}>Cinecode</Text>
 
-      <TextInput
-          style={styles.input}
-          value={inputValue}
-          onChangeText={handleInputChange}
-          placeholder="Search movies..."
-          placeholderTextColor="#999"
-        />
-<Text style={styles.browse}>Browse By</Text>
-
-        <View style={styles.containerfilter}>
-          <FlatList
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            data={filterOptions}
-            renderItem={renderItem}
-            keyExtractor={item => item.label}
+          <TextInput
+            style={styles.input}
+            value={inputValue}
+            onChangeText={handleInputChange}
+            placeholder="Search movies..."
+            placeholderTextColor="#999"
           />
-        </View>
-        <FlatList
-          style={styles.container}
-          data={visibleYears}
-          renderItem={({item}) => {
-            return item <= 2024 ? (
-              <YearList year={item} movies={moviesByYear[item] || []} />
-            ) : null;
-          }}
-          keyExtractor={item => item.toString()}
-          onRefresh={onRefresh}
-          refreshing={refreshing}
-          showsHorizontalScrollIndicator={false}
-          onEndReached={() => loadMoreYears('down')}
-          ListFooterComponent={
-            loading ? <ActivityIndicator size="large" color="gray" /> : null
-          }
-          onEndReachedThreshold={0.5}
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }
-        />
-      </ImageBackground>
+          <Text style={styles.browse}>Browse By</Text>
+
+          <View style={styles.containerfilter}>
+            <FlatList
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              data={filterOptions}
+              renderItem={renderItem}
+              keyExtractor={item => item.label}
+            />
+          </View>
+          <FlatList
+            style={styles.container}
+            data={visibleYears}
+            renderItem={({item}) => {
+              return item <= 2024 ? (
+                <YearList year={item} movies={moviesByYear[item] || []} />
+              ) : null;
+            }}
+            keyExtractor={item => item.toString()}
+            onRefresh={onRefresh}
+            refreshing={refreshing}
+            showsHorizontalScrollIndicator={false}
+            onEndReached={() => loadMoreYears('down')}
+            ListFooterComponent={
+              loading ? <ActivityIndicator size="large" color="gray" /> : null
+            }
+            onEndReachedThreshold={0.5}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
+          />
+        </ImageBackground>
+      ) : null
+      }
     </SafeAreaView>
   );
 };
@@ -198,7 +209,9 @@ const HomePage: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 5,
+    padding: 0,
+    // flexDirection: 'column',
+    // flexWrap: 'wrap',
   },
   input: {
     height: 40,
@@ -208,7 +221,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     marginBottom: 10,
     marginHorizontal: 10,
-    width:'95%',
+    width: '95%',
     borderRadius: 20,
     color: 'white', // Text color
   },
