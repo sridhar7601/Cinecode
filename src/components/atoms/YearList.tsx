@@ -1,16 +1,25 @@
+/* eslint-disable react-native/no-inline-styles */
 // src/components/atoms/YearList.tsx
- 
-import React, { memo } from 'react';
+
+import React, {memo} from 'react';
 import {View, Text, StyleSheet, FlatList} from 'react-native';
 import MovieCard from './MovieCard';
 
- 
 interface YearListProps {
   year: number;
-  movies: {id: number; title: string; genre_ids: string[]; poster_path: string;overView:string[];vote_average:number;release_date:string;original_language:string}[];
+  movies: {
+    id: number;
+    title: string;
+    genre_ids: string[];
+    poster_path: string;
+    overView: string[];
+    vote_average: number;
+    release_date: string;
+    original_language: string;
+  }[];
 }
- 
-const YearList: React.FC<YearListProps> = ({year, movies}) => { 
+
+const YearList: React.FC<YearListProps> = ({year, movies}) => {
   return (
     <View style={styles.container}>
       <Text style={styles.year}>{year}</Text>
@@ -24,11 +33,11 @@ const YearList: React.FC<YearListProps> = ({year, movies}) => {
               genres={item.genre_ids}
               showsHorizontalScrollIndicator={false}
               posterUrl={item.poster_path}
-              overview = {item.overview}
-              vote_average = {item.vote_average}
-              release_date = {item.release_date}
-              original_language = {item.original_language}
-              popularity = {item.popularity}
+              overview={item.overview}
+              vote_average={item.vote_average}
+              release_date={item.release_date}
+              original_language={item.original_language}
+              popularity={item.popularity}
             />
           )}
           keyExtractor={item => item.id.toString()}
@@ -48,7 +57,7 @@ const YearList: React.FC<YearListProps> = ({year, movies}) => {
     </View>
   );
 };
- 
+
 const styles = StyleSheet.create({
   container: {
     marginBottom: 16,
@@ -62,6 +71,5 @@ const styles = StyleSheet.create({
     width: 70,
   },
 });
- 
+
 export default memo(YearList);
- 

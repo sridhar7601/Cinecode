@@ -1,6 +1,6 @@
 // src/components/atoms/FilterOption.tsx
 
-import React ,{ memo } from 'react';
+import React, {memo} from 'react';
 import {TouchableOpacity, StyleSheet, Image} from 'react-native';
 
 interface FilterOptionProps {
@@ -11,7 +11,6 @@ interface FilterOptionProps {
 }
 
 const FilterOption: React.FC<FilterOptionProps> = ({
-  label,
   image,
   isSelected,
   onSelect,

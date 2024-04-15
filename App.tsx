@@ -1,14 +1,13 @@
 // App.tsx
 
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import MainNavigator from './src/navigation/MainNavigator';
-
 
 const App: React.FC = () => {
   return (
     <View style={styles.container}>
-      <MainNavigator/>
+      <MainNavigator />
     </View>
   );
 };

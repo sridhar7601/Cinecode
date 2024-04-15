@@ -1,6 +1,7 @@
+/* eslint-disable react-native/no-inline-styles */
 // src/components/atoms/MovieDetailsPage.tsx
 
-import React, { memo,useState }  from 'react';
+import React, {memo, useState} from 'react';
 import {
   View,
   Text,
@@ -8,7 +9,7 @@ import {
   Image,
   ScrollView,
   StyleSheet,
-  ActivityIndicator
+  ActivityIndicator,
 } from 'react-native';
 import {genreMapping} from '../utils/genreMapping';
 
@@ -209,4 +210,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default memo( MovieDetailsPage);
+export default memo(MovieDetailsPage);

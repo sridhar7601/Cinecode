@@ -27,7 +27,7 @@ import war from '../../assets/filterlogo/war.png';
 import axios from 'axios';
 
 const HomePage: React.FC = () => {
-  const [isConnected, setConnected] = useState(false);
+  const [isConnected, setConnected] = useState(true);
   useEffect(() => {
     const unsubscribe = NetInfo.addEventListener(state => {
       console.log('Connection type', state.type);
@@ -68,7 +68,7 @@ const HomePage: React.FC = () => {
     }
   };
 
-  const loadMoreYears = async (direction: 'up' | 'down') => {
+  const loadMoreYears = async () => {
     let lastYear;
     setVisibleYears(prevYears => {
       lastYear = prevYears[prevYears.length - 1];
@@ -190,7 +190,7 @@ const HomePage: React.FC = () => {
             onRefresh={onRefresh}
             refreshing={refreshing}
             showsHorizontalScrollIndicator={false}
-            onEndReached={() => loadMoreYears('down')}
+            onEndReached={() => loadMoreYears()}
             ListFooterComponent={
               loading ? <ActivityIndicator size="large" color="gray" /> : null
             }
@@ -200,8 +200,9 @@ const HomePage: React.FC = () => {
             }
           />
         </ImageBackground>
-      ) : null
-      }
+      ) : (
+        <ImageBackground source={require('../../assets/no-internet.jpeg')} />
+      )}
     </SafeAreaView>
   );
 };

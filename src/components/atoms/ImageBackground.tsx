@@ -1,18 +1,18 @@
 // src/components/atoms/ImageBackground.tsx
 
-import React, {ReactNode,memo} from 'react';
+import React, {ReactNode, memo} from 'react';
 import {ImageBackground, StyleSheet, View, ViewStyle} from 'react-native';
 
 interface ImageBackgroundProps {
-  source: any; 
-  children?: ReactNode; 
-  style?: ViewStyle; 
+  source: any;
+  children?: ReactNode;
+  style?: ViewStyle;
 }
 
 const ImageBackgroundComponent: React.FC<ImageBackgroundProps> = ({
   source,
   children,
-  style
+  style,
 }) => {
   return (
     <View style={[styles.container, style]}>
