@@ -79,7 +79,10 @@ Cinecode is a Fancode-inspired App.
 
 A Demo video with features including search, multiple filters, and load movies with activity loader(all customizable styles no Css framework used only react-native inbuilt packages)
 
-https://github.com/sridhar7601/Cinecode/assets/56919037/c0cc8901-141c-4a68-8899-8e2f36c5c20e
+
+https://github.com/sridhar7601/Cinecode/assets/56919037/7d36fe42-bbdc-474f-a236-e08b34690276
+
+
 
 As per the request and user scrolling if the user scrolls up, it has to list old movies(which is not the appropriate use-case but customizable)
 
