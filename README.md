@@ -1,5 +1,5 @@
 # Getting Started
-# Project Name
+## Cinecode
 
 Cinecode a Fancode inspired App.
 
