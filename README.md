@@ -3,17 +3,18 @@
 
 Cinecode is a Fancode-inspired App.
 ### Task requirement Covered
-1. Layout and UI
-2. Default page load state (2012 starting & load movies of the previous year when the user scrolls up and load
+1. Online / offline capturing events & monitored
+2. Layout and UI
+3. Default page load state (2012 starting & load movies of the previous year when the user scrolls up and load
 movies of next year when the user scrolls down until the current year.)
-3. API
-4. Genre Filter (Search filter, Multiple Genre filter)
-5. Code Quality (Avoided using pre-built component libraries (e.g., Bootstrap, Tailwind, etc.) for
+4. API
+5. Genre Filter (Search filter, Multiple Genre filter)
+6. Code Quality (Avoided using pre-built component libraries (e.g., Bootstrap, Tailwind, etc.) for
 creating UI components)
-6. Implemented a search bar that searches for the movie based on the search string
+7. Implemented a search bar that searches for the movie based on the search string
 and displays an infinite loading list of movies that matches the search.
-7. TypeScript for enhanced type safety and code quality.
-8. Test-Cases (Ongoing as I started to learn on the go)
+8. TypeScript for enhanced type safety and code quality.
+9. Test-Cases (Ongoing as I started to learn on the go)
 
 ## Table of Contents
 
