@@ -12,9 +12,11 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import {genreMapping} from '../utils/genreMapping';
+import {BlurView} from '@react-native-community/blur';
 
 const MovieDetailsPage = ({route}) => {
   const [imageLoaded, setImageLoaded] = useState(false);
+  // const [innerImageLoaded, setinnerImageLoaded] = useState(false);
 
   const {
     title,
@@ -25,20 +27,7 @@ const MovieDetailsPage = ({route}) => {
     genres,
     popularity,
   } = route.params;
-  // const loadImage = () => {
-  //   return new Promise((resolve, reject) => {
-  //     const image = new Image();
-  //     image.src = `https://image.tmdb.org/t/p/w500/${posterUrl}`;
-  //     image.onload = () => {
-  //       setImageLoaded(true);
-  //       resolve();
-  //     };
-  //     image.onerror = error => {
-  //       console.error('Error loading image:', error);
-  //       reject();
-  //     };
-  //   });
-  // };
+  console.log(popularity, vote_average.toFixed(1), 'ffff');
 
   const langOfMov = original_language.toUpperCase();
   const renderGenres = () => {
@@ -65,19 +54,24 @@ const MovieDetailsPage = ({route}) => {
         blurRadius={Platform.OS === 'ios' ? 10 : 3}
         source={{uri: `https://image.tmdb.org/t/p/w500/${posterUrl}`}}
         style={styles.poster}
-        onLoad={() => setImageLoaded(true)}
-        onError={() => setImageLoaded(false)}
+        // onLoad={() => setImageLoaded(true)}
+        // onError={() => setImageLoaded(false)}
       />
 
       <Image
         source={{uri: `https://image.tmdb.org/t/p/w500/${posterUrl}`}}
         style={styles.innerposter}
+        onLoad={() => setImageLoaded(true)}
+        onError={() => setImageLoaded(false)}
       />
-
-      <View style={styles.detailsarea}>
+      {/* <BlurView
+        style={{backgroundColor: 'red'}}
+        blurType="light"
+        blurAmount={10}> */}
+      <BlurView blurType="light" blurAmount={10} style={styles.detailsarea}>
         <View style={styles.firstrow}>
           <Text style={styles.centeredText}>
-            {vote_average}/ 10 {'\n'}
+            {vote_average.toFixed(1)} / 10 {'\n'}
             Rating
           </Text>
           <Text style={styles.centeredText}>
@@ -91,15 +85,7 @@ const MovieDetailsPage = ({route}) => {
           </Text>
         </View>
         <View style={styles.titlearea}>
-          <Text
-            numberOfLines={2}
-            style={{
-              fontSize: 18,
-              fontWeight: 'bold',
-              textAlign: 'center',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
+          <Text numberOfLines={2} style={styles.maintitle}>
             {title}
           </Text>
         </View>
@@ -110,11 +96,11 @@ const MovieDetailsPage = ({route}) => {
           {renderGenres()}
         </ScrollView>
         <View style={styles.overviewarea}>
-          <Text style={{textAlign: 'center'}} numberOfLines={6}>
+          <Text style={styles.overviewcontent} numberOfLines={6}>
             {overview}
           </Text>
         </View>
-      </View>
+      </BlurView>
     </SafeAreaView>
   );
 };
@@ -126,15 +112,34 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   genreBox: {
-    backgroundColor: '#e5e5e5',
+    backgroundColor: 'rgba(0, 0, 0, 0.1)',
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 12,
     margin: 4,
   },
+  maintitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+    color: 'white',
+  },
+  activityIndicator: {
+    justifyContent: 'center',
+    position: 'absolute',
+    top: 40,
+    alignItems: 'center',
+  },
+  overviewcontent: {
+    textAlign: 'center',
+    fontSize: 16,
+    color: 'white',
+  },
   genreText: {
     fontSize: 14,
-    color: '#333',
+    color: 'white',
   },
   backgroundwhite: {
     width: '100%',
@@ -144,6 +149,7 @@ const styles = StyleSheet.create({
   },
   centeredText: {
     flex: 1,
+    color: 'white',
     textAlign: 'center',
     fontSize: 16,
     marginBottom: 8,
@@ -157,7 +163,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: 13,
   },
   innerposter: {
     position: 'absolute',
@@ -169,12 +175,12 @@ const styles = StyleSheet.create({
   },
   titlearea: {
     alignItems: 'center',
-    paddingVertical: 15,
+    // paddingVertical: 0,
     justifyContent: 'space-around',
     textAlign: 'center',
-    margin: 5,
+    marginTop: 0,
     width: '100%',
-    height: '20%',
+    height: '15%',
   },
   firstrow: {
     display: 'flex',
@@ -191,22 +197,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     width: '100%',
-    height: '50%',
+    height: '60%',
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
   },
   detailsarea: {
-    backgroundColor: '#eee',
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
     bottom: 0,
     position: 'absolute',
     width: '100%',
     height: 270,
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
+    borderRadius: 30,
+    borderBottomLeftRadius: 0, // Apply border radius to bottom left corner
+    borderBottomRightRadius: 0, // Apply border radius to bottom right corner
     alignItems: 'center',
-    padding: 5,
+    padding: 6,
   },
 });
 

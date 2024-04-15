@@ -26,18 +26,18 @@ const YearList: React.FC<YearListProps> = ({year, movies}) => {
       {movies.length > 0 ? (
         <FlatList
           data={movies}
+          showsHorizontalScrollIndicator={false}
           renderItem={({item}) => (
             <MovieCard
               key={item.id.toString()}
               title={item.title}
               genres={item.genre_ids}
-              showsHorizontalScrollIndicator={false}
               posterUrl={item.poster_path}
               overview={item.overview}
               vote_average={item.vote_average}
               release_date={item.release_date}
               original_language={item.original_language}
-              popularity={item.popularity}
+              popularity={item.vote_count}
             />
           )}
           keyExtractor={item => item.id.toString()}

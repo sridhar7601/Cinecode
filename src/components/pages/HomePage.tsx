@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
 import ImageBackground from '../atoms/ImageBackground';
+// import {API_KEY} from 'react-native-dotenv';
 import YearList from '../atoms/YearList';
 import FilterOption from '../atoms/FilterOption';
 import action from '../../assets/filterlogo/action.png';
@@ -85,27 +86,21 @@ const HomePage: React.FC = () => {
       ? selectedFilters.filter(item => item !== filter)
       : [...selectedFilters, filter];
     setSelectedFilters(updatedFilters);
-    // console.log('Selected Filters:', updatedFilters);
   };
 
   async function onRefresh() {
     setRefreshing(true);
-
-    // Ensure visibleYears is not empty
     if (visibleYears.length > 0) {
-      let lastYear = visibleYears[0]; // Access the first year
+      let lastYear = visibleYears[0];
 
-      // Prepend the previous year to visibleYears
       setVisibleYears(prevYears => [lastYear - 1, ...prevYears]);
 
-      // Fetch movies for the previous year
       const movies = await fetchMoviesForYear(lastYear - 1, selectedFilters);
 
-      // Update moviesByYear state with the fetched movies
       setMoviesByYear(prevMovies => ({[lastYear - 1]: movies, ...prevMovies}));
     }
 
-    setRefreshing(false); // Finish refreshing
+    setRefreshing(false);
   }
 
   const renderItem = ({item}: {item: any}) => (
@@ -136,15 +131,11 @@ const HomePage: React.FC = () => {
         visibleYears.map(async year => {
           const movies = await fetchMoviesForYear(year, selectedFilters);
           let filteredMovies = movies.filter(movie => {
-            // Convert both movie title and keyword to lowercase for case-insensitive comparison
-            // const keyword = "the"; // The keyword you want to search for (e.g., "Avengers")
             const movieTitle = movie.title.toLowerCase(); // Convert movie title to lowercase
 
-            // Check if the movie title includes the keyword (case-insensitive)
             return movieTitle.includes(inputValue.toLowerCase());
           });
 
-          // console.log(filteredMovies, 'filter');
           movieData[year] = filteredMovies;
         }),
       );
@@ -156,7 +147,7 @@ const HomePage: React.FC = () => {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      {isConnected ? ( // Render content only when isConnected state is initialized
+      {isConnected ? (
         <ImageBackground source={require('../../assets/background.png')}>
           <Text style={styles.title}>Cinecode</Text>
 
@@ -224,7 +215,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     width: '95%',
     borderRadius: 20,
-    color: 'white', // Text color
+    color: 'white',
   },
   safeArea: {
     flex: 1,
