@@ -11,6 +11,7 @@ Cinecode is a Fancode-inspired App.
 - [MacOs](#macos)
 - [Usage](#usage)
 - [Demo](#demo)
+- [UI](ui)
 - [Test](#test)
 - [License](#license)
 
@@ -86,6 +87,12 @@ https://github.com/sridhar7601/Cinecode/assets/56919037/7d36fe42-bbdc-474f-a236-
 As per the request and user scrolling if the user scrolls up, it has to list old movies(which is not the appropriate use-case but customizable)
 
 https://github.com/sridhar7601/Cinecode/assets/56919037/babe2dd7-11c2-4ef6-98ca-4ed87f95b1a8
+
+## UI 
+## Inspired from 
+1. [Peacock](https://www.figma.com/file/bzLo9Lx3iBcB6VyP7XOeZC/PeacockApp?type=design&mode=design&t=Btju8kDZiqhV0Pjg-1)
+2. [Ticket booking](https://dribbble.com/shots/18133523-Movie-Tickets-Mobile-App)
+3. And some Brain crushed Ideas 🪄 🚀
 
 ## Test
 
