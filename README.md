@@ -27,7 +27,7 @@ Cinecode a Fancode inspired App.
    #or
    yarn install
 
-4. For macOs / Windows / Linux follow this link:
+4. For macOs / Windows / Linux follow this link for Enivronment setup (Choose the desired options):
      - [Enivronment Setup](https://reactnative.dev/docs/environment-setup)
 
  ## Usage
