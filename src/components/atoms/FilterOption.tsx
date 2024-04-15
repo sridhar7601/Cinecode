@@ -4,9 +4,8 @@ import React, {memo} from 'react';
 import {TouchableOpacity, StyleSheet, Image} from 'react-native';
 
 interface FilterOptionProps {
-  label: string;
   isSelected: boolean;
-  image: any; // Add this line
+  image: any;
   onSelect: () => void;
 }
 

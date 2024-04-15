@@ -31,8 +31,6 @@ const HomePage: React.FC = () => {
   const [isConnected, setConnected] = useState(true);
   useEffect(() => {
     const unsubscribe = NetInfo.addEventListener(state => {
-      // console.log('Connection type', state.type);
-      // console.log('Is connected?', state.isConnected);
       setConnected(state.isConnected);
     });
     return () => {

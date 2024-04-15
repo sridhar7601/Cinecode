@@ -15,7 +15,6 @@ import {genreMapping} from '../utils/genreMapping';
 
 const MovieDetailsPage = ({route}) => {
   const [imageLoaded, setImageLoaded] = useState(false);
-  // const [innerImageLoaded, setinnerImageLoaded] = useState(false);
 
   const {
     title,
@@ -53,8 +52,6 @@ const MovieDetailsPage = ({route}) => {
         blurRadius={5}
         source={{uri: `https://image.tmdb.org/t/p/w500/${posterUrl}`}}
         style={styles.poster}
-        // onLoad={() => setImageLoaded(true)}
-        // onError={() => setImageLoaded(false)}
       />
 
       <Image
@@ -63,10 +60,6 @@ const MovieDetailsPage = ({route}) => {
         onLoad={() => setImageLoaded(true)}
         onError={() => setImageLoaded(false)}
       />
-      {/* <BlurView
-        style={{backgroundColor: 'red'}}
-        blurType="light"
-        blurAmount={10}> */}
       <View style={styles.detailsarea}>
         <View style={styles.firstrow}>
           <Text style={styles.centeredText}>

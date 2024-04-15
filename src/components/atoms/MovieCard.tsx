@@ -49,22 +49,6 @@ const MovieCard: React.FC<MovieCardProps> = ({
       popularity,
     });
   };
-
-  // const loadImage = () => {
-  //   return new Promise((resolve, reject) => {
-  //     const image = new Image();
-  //     image.src = `https://image.tmdb.org/t/p/w500/${posterUrl}`;
-  //     image.onload = () => {
-  //       setImageLoaded(true);
-  //       resolve();
-  //     };
-  //     image.onerror = error => {
-  //       console.error('Error loading image:', error);
-  //       reject();
-  //     };
-  //   });
-  // };
-
   return (
     <TouchableOpacity style={styles.container} onPress={handlePress}>
       {!imageLoaded ? (
