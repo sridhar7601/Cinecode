@@ -147,7 +147,7 @@ const HomePage: React.FC = () => {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      {!isConnected ? (
+      {isConnected ? (
         <ImageBackground source={require('../../assets/background.png')}>
           <Text style={styles.title}>Cinecode</Text>
 
@@ -192,7 +192,7 @@ const HomePage: React.FC = () => {
           />
         </ImageBackground>
       ) : (
-        <ImageBackground source={require('../../assets/no-internet.png')} />
+        <ImageBackground source={require('../../assets/no-internet.gif')} />
       )}
     </SafeAreaView>
   );
