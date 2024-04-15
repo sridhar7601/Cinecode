@@ -40,6 +40,14 @@ Cinecode a Fancode inspired App.
     npx react-native run-android
 
 
+##Demo
+
+A Demo video with features including search, multiple filters, and load movies with activity loader(all customizable styles no Css framework used only react-native inbuilt packages)
+
+https://github.com/sridhar7601/Cinecode/assets/56919037/c0cc8901-141c-4a68-8899-8e2f36c5c20e
+
+
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
