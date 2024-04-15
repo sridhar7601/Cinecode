@@ -68,7 +68,7 @@ const MovieDetailsPage = ({route}) => {
         style={{backgroundColor: 'red'}}
         blurType="light"
         blurAmount={10}> */}
-      {!Platform.OS === 'ios' ? (
+      {Platform.OS !== 'android' ? (
         <View style={styles.detailsarea}>
           <View style={styles.firstrow}>
             <Text style={styles.centeredText}>
