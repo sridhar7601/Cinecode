@@ -8,6 +8,7 @@ import {
   SafeAreaView,
   Image,
   ScrollView,
+  Platform,
   StyleSheet,
   ActivityIndicator,
 } from 'react-native';
