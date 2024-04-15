@@ -32,14 +32,7 @@ Cinecode a Fancode inspired App.
 
  ## Usage
 
-1. Start the Metro bundler:(Use either npm or yarn):
-
-    ```bash
-    npm start
-   #or
-   yarn start
-
-2. Run the application on iOS / Android (Use either npm or yarn) If macOS have xcode installed / If windows have android studio installed:
+1. In the same directory run the application on iOS / Android (Use either npm or yarn) - If macOS, have xcode installed / If windows, have android studio installed :
 
     ```bash
     npx react-native run-ios
