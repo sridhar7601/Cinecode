@@ -147,7 +147,7 @@ const HomePage: React.FC = () => {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      {isConnected ? (
+      {!isConnected ? (
         <ImageBackground source={require('../../assets/background.png')}>
           <Text style={styles.title}>Cinecode</Text>
 
@@ -192,10 +192,7 @@ const HomePage: React.FC = () => {
           />
         </ImageBackground>
       ) : (
-        <ImageBackground
-          source={require('../../assets/no-internet.jpeg')}
-          style={styles.nointernet}
-        />
+        <ImageBackground source={require('../../assets/no-internet.png')} />
       )}
     </SafeAreaView>
   );
@@ -207,9 +204,6 @@ const styles = StyleSheet.create({
     padding: 0,
     // flexDirection: 'column',
     // flexWrap: 'wrap',
-  },
-  nointernet: {
-    resizeMode: 'contain',
   },
   input: {
     height: 40,
