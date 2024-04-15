@@ -5,7 +5,7 @@ Cinecode is a Fancode-inspired App.
 
 ## Table of Contents
 
-- [Prequestise](#installation)
+- [Prequestise](#prerequisites)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Demo](#demo)
