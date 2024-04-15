@@ -87,7 +87,12 @@ As per the request and user scrolling if the user scrolls up, it has to list old
 
 https://github.com/sridhar7601/Cinecode/assets/56919037/babe2dd7-11c2-4ef6-98ca-4ed87f95b1a8
 
-## Test(Ongoing)
+## Test
+
+1. Chai(Ongoing)
+2. Mocha(Ongoing)
+3. Jest(Ongoing)
+
 
 
 ## License
