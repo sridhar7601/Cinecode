@@ -8,12 +8,10 @@ import {
   SafeAreaView,
   Image,
   ScrollView,
-  Platform,
   StyleSheet,
   ActivityIndicator,
 } from 'react-native';
 import {genreMapping} from '../utils/genreMapping';
-import {BlurView} from '@react-native-community/blur';
 
 const MovieDetailsPage = ({route}) => {
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -69,75 +67,39 @@ const MovieDetailsPage = ({route}) => {
         style={{backgroundColor: 'red'}}
         blurType="light"
         blurAmount={10}> */}
-      {Platform.OS !== 'android' ? (
-        <View style={styles.detailsarea}>
-          <View style={styles.firstrow}>
-            <Text style={styles.centeredText}>
-              {vote_average.toFixed(1)} / 10 {'\n'}
-              Rating
-            </Text>
-            <Text style={styles.centeredText}>
-              {langOfMov}
-              {'\n'}
-              Lang
-            </Text>
-            <Text style={styles.centeredText}>
-              {popularity} {'\n'}
-              Popularity
-            </Text>
-          </View>
-          <View style={styles.titlearea}>
-            <Text numberOfLines={2} style={styles.maintitle}>
-              {title}
-            </Text>
-          </View>
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.genresContainer}>
-            {renderGenres()}
-          </ScrollView>
-          <View style={styles.overviewarea}>
-            <Text style={styles.overviewcontent} numberOfLines={6}>
-              {overview}
-            </Text>
-          </View>
+      <View style={styles.detailsarea}>
+        <View style={styles.firstrow}>
+          <Text style={styles.centeredText}>
+            {vote_average.toFixed(1)} / 10 {'\n'}
+            Rating
+          </Text>
+          <Text style={styles.centeredText}>
+            {langOfMov}
+            {'\n'}
+            Lang
+          </Text>
+          <Text style={styles.centeredText}>
+            {popularity} {'\n'}
+            Popularity
+          </Text>
         </View>
-      ) : (
-        <BlurView blurType="light" blurAmount={10} style={styles.detailsarea}>
-          <View style={styles.firstrow}>
-            <Text style={styles.centeredText}>
-              {vote_average.toFixed(1)} / 10 {'\n'}
-              Rating
-            </Text>
-            <Text style={styles.centeredText}>
-              {langOfMov}
-              {'\n'}
-              Lang
-            </Text>
-            <Text style={styles.centeredText}>
-              {popularity} {'\n'}
-              Popularity
-            </Text>
-          </View>
-          <View style={styles.titlearea}>
-            <Text numberOfLines={2} style={styles.maintitle}>
-              {title}
-            </Text>
-          </View>
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.genresContainer}>
-            {renderGenres()}
-          </ScrollView>
-          <View style={styles.overviewarea}>
-            <Text style={styles.overviewcontent} numberOfLines={6}>
-              {overview}
-            </Text>
-          </View>
-        </BlurView>
-      )}
+        <View style={styles.titlearea}>
+          <Text numberOfLines={2} style={styles.maintitle}>
+            {title}
+          </Text>
+        </View>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.genresContainer}>
+          {renderGenres()}
+        </ScrollView>
+        <View style={styles.overviewarea}>
+          <Text style={styles.overviewcontent} numberOfLines={6}>
+            {overview}
+          </Text>
+        </View>
+      </View>
     </SafeAreaView>
   );
 };
