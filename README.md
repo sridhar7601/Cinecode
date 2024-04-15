@@ -7,6 +7,8 @@ Cinecode is a Fancode-inspired App.
 
 - [Prequestise](#prerequisites)
 - [Installation](#installation)
+- [Windows](#windows)
+- [MacOs](#macos)
 - [Usage](#usage)
 - [Demo](#demo)
 - [License](#license)
@@ -33,20 +35,46 @@ Cinecode is a Fancode-inspired App.
    npm install
    #or
    yarn install
-
 4. For macOS / Windows / Linux follow this link for Environment setup (Choose the desired options):
      - [Enivronment Setup](https://reactnative.dev/docs/environment-setup)
 
- ## Usage
+ ## Windows
 
-1. In the same directory run the application on iOS / Android (Use either npm or yarn) - If macOS, have Xcode installed / If Windows, have Android Studio installed :
+1. Install Android Studio and set up the Android SDK.
+2. Add the Android SDK location to your system's PATH environment variable.
+3. In the project directory, run the following command to start the Android app:
+      ```bash
+      npx react-native run-android
+## MacOs 
 
+1. Install Xcode from the Mac App Store.
+2. In the project directory, navigate to the ios folder and install the CocoaPods dependencies:
+3. 
+     ```bash
+        cd ios
+        pod install
+        cd ..
+4. Run the iOS app:
+5. 
     ```bash
     npx react-native run-ios
-    #or
+## Usage
+
+## Android Usage
+
+1. Connect an Android device or start an Android emulator.
+2. In the project directory, run the following command to start the Android app:
+3. 
+    ```bash
     npx react-native run-android
+## iOS Usage
 
-
+1. Make sure you have a Mac with Xcode installed.
+2. Connect an iOS device or start an iOS emulator.
+3. In the project directory, run the following command to start the iOS app:
+4. 
+      ```bash
+      npx react-native run-ios
 ## Demo
 
 A Demo video with features including search, multiple filters, and load movies with activity loader(all customizable styles no Css framework used only react-native inbuilt packages)
