@@ -192,7 +192,10 @@ const HomePage: React.FC = () => {
           />
         </ImageBackground>
       ) : (
-        <ImageBackground source={require('../../assets/no-internet.jpeg')} />
+        <ImageBackground
+          source={require('../../assets/no-internet.jpeg')}
+          style={styles.nointernet}
+        />
       )}
     </SafeAreaView>
   );
@@ -204,6 +207,9 @@ const styles = StyleSheet.create({
     padding: 0,
     // flexDirection: 'column',
     // flexWrap: 'wrap',
+  },
+  nointernet: {
+    resizeMode: 'contain',
   },
   input: {
     height: 40,

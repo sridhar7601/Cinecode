@@ -51,7 +51,7 @@ const MovieDetailsPage = ({route}) => {
         />
       ) : null}
       <Image
-        blurRadius={Platform.OS === 'ios' ? 10 : 3}
+        blurRadius={5}
         source={{uri: `https://image.tmdb.org/t/p/w500/${posterUrl}`}}
         style={styles.poster}
         // onLoad={() => setImageLoaded(true)}
@@ -68,39 +68,75 @@ const MovieDetailsPage = ({route}) => {
         style={{backgroundColor: 'red'}}
         blurType="light"
         blurAmount={10}> */}
-      <BlurView blurType="light" blurAmount={10} style={styles.detailsarea}>
-        <View style={styles.firstrow}>
-          <Text style={styles.centeredText}>
-            {vote_average.toFixed(1)} / 10 {'\n'}
-            Rating
-          </Text>
-          <Text style={styles.centeredText}>
-            {langOfMov}
-            {'\n'}
-            Lang
-          </Text>
-          <Text style={styles.centeredText}>
-            {popularity} {'\n'}
-            Popularity
-          </Text>
+      {!Platform.OS === 'ios' ? (
+        <View blurType="light" blurAmount={10} style={styles.detailsarea}>
+          <View style={styles.firstrow}>
+            <Text style={styles.centeredText}>
+              {vote_average.toFixed(1)} / 10 {'\n'}
+              Rating
+            </Text>
+            <Text style={styles.centeredText}>
+              {langOfMov}
+              {'\n'}
+              Lang
+            </Text>
+            <Text style={styles.centeredText}>
+              {popularity} {'\n'}
+              Popularity
+            </Text>
+          </View>
+          <View style={styles.titlearea}>
+            <Text numberOfLines={2} style={styles.maintitle}>
+              {title}
+            </Text>
+          </View>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.genresContainer}>
+            {renderGenres()}
+          </ScrollView>
+          <View style={styles.overviewarea}>
+            <Text style={styles.overviewcontent} numberOfLines={6}>
+              {overview}
+            </Text>
+          </View>
         </View>
-        <View style={styles.titlearea}>
-          <Text numberOfLines={2} style={styles.maintitle}>
-            {title}
-          </Text>
-        </View>
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.genresContainer}>
-          {renderGenres()}
-        </ScrollView>
-        <View style={styles.overviewarea}>
-          <Text style={styles.overviewcontent} numberOfLines={6}>
-            {overview}
-          </Text>
-        </View>
-      </BlurView>
+      ) : (
+        <BlurView blurType="light" blurAmount={10} style={styles.detailsarea}>
+          <View style={styles.firstrow}>
+            <Text style={styles.centeredText}>
+              {vote_average.toFixed(1)} / 10 {'\n'}
+              Rating
+            </Text>
+            <Text style={styles.centeredText}>
+              {langOfMov}
+              {'\n'}
+              Lang
+            </Text>
+            <Text style={styles.centeredText}>
+              {popularity} {'\n'}
+              Popularity
+            </Text>
+          </View>
+          <View style={styles.titlearea}>
+            <Text numberOfLines={2} style={styles.maintitle}>
+              {title}
+            </Text>
+          </View>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.genresContainer}>
+            {renderGenres()}
+          </ScrollView>
+          <View style={styles.overviewarea}>
+            <Text style={styles.overviewcontent} numberOfLines={6}>
+              {overview}
+            </Text>
+          </View>
+        </BlurView>
+      )}
     </SafeAreaView>
   );
 };
@@ -155,7 +191,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   poster: {
-    width: '120%',
+    width: '100%',
     height: '100%',
   },
   genresContainer: {
