@@ -101,31 +101,25 @@ As per the request and user scrolling if the user scrolls up, it has to list old
 ### Method - 1
 https://github.com/sridhar7601/Cinecode/assets/56919037/babe2dd7-11c2-4ef6-98ca-4ed87f95b1a8
 ### Method -2 
-      ```javascript
+      ```bash
       <ScrollView
-onScroll={({nativeEvent})=>{
-if(isCloseToTop(nativeEvent)){
+     onScroll={({nativeEvent})=>{
+     if(isCloseToTop(nativeEvent)){
     //do something
-}
-if(isCloseToBottom(nativeEvent)){
-   //do something
-}
-}}
->
-...contents
-</ScrollView>
-
-
-
-isCloseToBottom({layoutMeasurement, contentOffset, contentSize}){
-   return layoutMeasurement.height + contentOffset.y >= contentSize.height - 20;
-}
-
-
-
-ifCloseToTop({layoutMeasurement, contentOffset, contentSize}){
-   return contentOffset.y == 0;
-}
+                }
+       if(isCloseToBottom(nativeEvent)){
+         //do something
+                }
+             }}
+      >
+      ...contents
+     </ScrollView>
+         isCloseToBottom({layoutMeasurement, contentOffset, contentSize}){
+          return layoutMeasurement.height + contentOffset.y >= contentSize.height - 20;
+     }
+    ifCloseToTop({layoutMeasurement, contentOffset, contentSize}){
+       return contentOffset.y == 0;
+    }
 ![reactnative](https://github.com/sridhar7601/Cinecode/assets/56919037/e62e1669-2afa-4109-8d73-3e79f7ffb031)
 
 
