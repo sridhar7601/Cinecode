@@ -25,7 +25,7 @@ const MovieDetailsPage = ({route}) => {
     genres,
     popularity,
   } = route.params;
-  console.log(popularity, vote_average.toFixed(1), 'ffff');
+  // console.log(popularity, vote_average.toFixed(1), 'ffff');
 
   const langOfMov = original_language.toUpperCase();
   const renderGenres = () => {

@@ -170,9 +170,12 @@ const HomePage: React.FC = () => {
             style={styles.container}
             data={visibleYears}
             renderItem={({item}) => {
-              return item <= 2024 ? (
-                <YearList year={item} movies={moviesByYear[item] || []} />
-              ) : null;
+              // console.log(moviesByYear[item], 'item'); // Optional logging for debugging
+              if (moviesByYear[item]?.length > 0 && item <= 2024) {
+                return <YearList year={item} movies={moviesByYear[item]} />;
+              } else {
+                return null; // Render nothing if condition is not met
+              }
             }}
             keyExtractor={item => item.toString()}
             onRefresh={onRefresh}
