@@ -88,9 +88,11 @@ const MovieDetailsPage = ({route}) => {
           {renderGenres()}
         </ScrollView>
         <View style={styles.overviewarea}>
-          <Text style={styles.overviewcontent} numberOfLines={6}>
-            {overview}
-          </Text>
+          <ScrollView vertical>
+            <Text style={styles.overviewcontent} numberOfLines={6}>
+              {overview}
+            </Text>
+          </ScrollView>
         </View>
       </View>
     </SafeAreaView>
@@ -167,12 +169,11 @@ const styles = StyleSheet.create({
   },
   titlearea: {
     alignItems: 'center',
-    // paddingVertical: 0,
     justifyContent: 'space-around',
     textAlign: 'center',
     marginTop: 0,
     width: '100%',
-    height: '15%',
+    height: '18%',
   },
   firstrow: {
     display: 'flex',
@@ -189,7 +190,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     width: '100%',
-    height: '60%',
+    height: '50%',
   },
   title: {
     fontSize: 24,

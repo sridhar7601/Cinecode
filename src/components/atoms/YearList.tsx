@@ -8,8 +8,8 @@ import MovieCard from './MovieCard';
 interface YearListProps {
   year: number;
   movies: {
-vote_count:number;
-overview:string;
+    vote_count: number;
+    overview: string;
     id: number;
     title: string;
     genre_ids: string[];
@@ -24,26 +24,30 @@ overview:string;
 const YearList: React.FC<YearListProps> = ({year, movies}) => {
   return (
     <View style={styles.container}>
-      {movies.length > 0 ? (<>
-      <Text style={styles.year}>{year}</Text>
-        <FlatList
-          data={movies}
-          showsHorizontalScrollIndicator={false}
-          renderItem={({item}) => (
-            <MovieCard
-              key={item.id.toString()}
-              title={item.title}
-              genres={item.genre_ids}
-              posterUrl={item.poster_path}
-              overview={item.overview}
-              vote_average={item.vote_average}
-              release_date={item.release_date}
-              original_language={item.original_language}
-              popularity={item.vote_count}
-            />
-          )}
-          keyExtractor={item => item.id.toString()}
-          horizontal/></>):null}
+      {movies.length > 0 ? (
+        <>
+          <Text style={styles.year}>{year}</Text>
+          <FlatList
+            data={movies}
+            showsHorizontalScrollIndicator={false}
+            renderItem={({item}) => (
+              <MovieCard
+                key={item.id.toString()}
+                title={item.title}
+                genres={item.genre_ids}
+                posterUrl={item.poster_path}
+                overview={item.overview}
+                vote_average={item.vote_average}
+                release_date={item.release_date}
+                original_language={item.original_language}
+                popularity={item.vote_count}
+              />
+            )}
+            keyExtractor={item => item.id.toString()}
+            horizontal
+          />
+        </>
+      ) : null}
     </View>
   );
 };
