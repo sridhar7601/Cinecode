@@ -114,7 +114,6 @@ const HomePage: React.FC = () => {
     {label: '878', image: scifi},
     {label: '27', image: horror},
     {label: '99', image: adventure},
-    {label: '98', image: scifi},
     {label: '35', image: comedy},
     {label: '80', image: crime},
     {label: '10749', image: romance},
