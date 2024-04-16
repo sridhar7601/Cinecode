@@ -43,7 +43,7 @@ const YearList: React.FC<YearListProps> = ({year, movies}) => {
             />
           )}
           keyExtractor={item => item.id.toString()}
-          horizontal/></>:null}
+          horizontal/></>):null}
     </View>
   );
 };
