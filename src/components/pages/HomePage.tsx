@@ -220,7 +220,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   containerfilter: {
-    flex: 0.16,
+    flex: 0.19,
     justifyContent: 'center',
     alignItems: 'center',
     margin: 2,
