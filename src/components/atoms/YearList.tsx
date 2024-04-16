@@ -8,6 +8,8 @@ import MovieCard from './MovieCard';
 interface YearListProps {
   year: number;
   movies: {
+vote_count:number;
+overview:string;
     id: number;
     title: string;
     genre_ids: string[];
@@ -22,8 +24,8 @@ interface YearListProps {
 const YearList: React.FC<YearListProps> = ({year, movies}) => {
   return (
     <View style={styles.container}>
+      {movies.length > 0 ? (<>
       <Text style={styles.year}>{year}</Text>
-      {movies.length > 0 ? (
         <FlatList
           data={movies}
           showsHorizontalScrollIndicator={false}
@@ -41,19 +43,7 @@ const YearList: React.FC<YearListProps> = ({year, movies}) => {
             />
           )}
           keyExtractor={item => item.id.toString()}
-          horizontal
-        />
-      ) : (
-        <Text
-          style={{
-            alignSelf: 'center',
-            color: '#fff',
-            fontSize: 20,
-            fontWeight: '700',
-          }}>
-          No movies found
-        </Text>
-      )}
+          horizontal/></>:null}
     </View>
   );
 };
