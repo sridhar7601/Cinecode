@@ -4,7 +4,7 @@
 Cinecode is a Fancode-inspired App.
 ### Task requirement Covered
 1. Online / offline capturing events & monitored
-2. Layout and UI
+2. Layout and UI (Error handling while searched all movies not found pending)
 3. Default page load state (2012 starting & load movies of the previous year when the user scrolls up and load
 movies of next year when the user scrolls down until the current year.)
 4. API
